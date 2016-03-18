@@ -8,5 +8,16 @@ namespace Coursework
 {
     class StorageProductBalance//Склад-товар-остаток
     {
+        public StorageProductBalance(int ID, int Balance, int IdOfProduct, int IdOfStorage)
+        {
+            id = ID;
+            balance = Balance;
+            idOfProduct = IdOfProduct;
+            idOfStorage = IdOfStorage;
+        }
+        public int id;
+        public int balance;
+        public int idOfProduct;
+        public int idOfStorage;
     }
 }
