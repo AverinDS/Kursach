@@ -21,13 +21,24 @@ namespace Coursework
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!File.Exists(@"C:\Database.sqlite"))//попытка найти БД. если её нет, создаём новую
+            if (!File.Exists(@"E:\Database.sqlite"))//попытка найти БД. если её нет, создаём новую
             {
-                SQLiteConnection.CreateFile(@"C:\Database.sqlite");
-                SQLiteConnection connect = new SQLiteConnection(@"Data Source = C:\Database.sqlite; Version = 3");
+                SQLiteConnection.CreateFile(@"E:\Database.sqlite");
+                SQLiteConnection connect = new SQLiteConnection(@"Data Source = E:\Database.sqlite; Version = 3");
+                connect.Open();
                 SQLiteCommand command = new SQLiteCommand(
-                    "create table product(id integer primary key, name varchar(20)) ", connect);
+                    "create table product(id integer primary key, name varchar(20), price real) ", connect);
+                command.ExecuteNonQuery();
+                command = new SQLiteCommand(
+                    "create table provider(id integer primary key, name varchar(20), currency varchar(4)) ", connect);
+                command.ExecuteNonQuery();
+                connect.Close();
             }
+
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
 
         }
     }
