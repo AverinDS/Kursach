@@ -27,7 +27,7 @@ namespace Coursework
                 SQLiteConnection connect = new SQLiteConnection(@"Data Source = E:\Database.sqlite; Version = 3");
                 connect.Open();
                 SQLiteCommand command = new SQLiteCommand(
-                    "create table product(id integer primary key, name varchar(20), price real) ", connect);
+                    "create table product(id integer primary key, name varchar(20), price real, id_provider integer) ", connect);
                 command.ExecuteNonQuery();
                 command = new SQLiteCommand(
                     "create table provider(id integer primary key, name varchar(20), currency varchar(4)) ", connect);
