@@ -33,6 +33,7 @@ namespace Coursework
                     "create table provider(id integer primary key, name varchar(20), currency varchar(4)) ", connect);
                 command.ExecuteNonQuery();
                 connect.Close();
+                MessageBox.Show("File of database not found. New file was create");
             }
 
         }

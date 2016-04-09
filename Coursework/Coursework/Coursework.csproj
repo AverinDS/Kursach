@@ -83,6 +83,9 @@
     <Compile Include="Operations\WorkWithDatabase.cs" />
     <Compile Include="Operations\WorkWithEmail.cs" />
     <Compile Include="Operations\Redistribution.cs" />
+    <EmbeddedResource Include="Forms\FormForRecords.resx">
+      <DependentUpon>FormForRecords.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormMainDB.resx">
       <DependentUpon>FormMainDB.cs</DependentUpon>
     </EmbeddedResource>
