@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.IO;
+using Coursework.Forms;
 
 namespace Coursework
 {
@@ -40,7 +41,9 @@ namespace Coursework
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-
+            FormForRecords f = new FormForRecords("product");//Это пока что не трогай, тут я пытаюсь динамически создавать поля
+            f.ShowDialog();
+              
         }
     }
 }

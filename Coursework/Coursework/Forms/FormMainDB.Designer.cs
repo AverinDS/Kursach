@@ -131,6 +131,7 @@
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.buttonEdit);
             this.Controls.Add(this.buttonAdd);
+            this.ForeColor = System.Drawing.Color.DarkBlue;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
