@@ -34,8 +34,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 261);
+            this.AutoSize = true;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(120, 146);
+            this.ControlBox = false;
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormForRecords";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "FormForRecords";
             this.Load += new System.EventHandler(this.FormForRecords_Load);
             this.ResumeLayout(false);
