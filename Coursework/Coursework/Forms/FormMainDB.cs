@@ -41,9 +41,24 @@ namespace Coursework
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            FormForRecords f = new FormForRecords("product");//Это пока что не трогай, тут я пытаюсь динамически создавать поля
-            f.ShowDialog();
-              
+            FormForRecords f = null;// в зависимости от передаваемого слова в форму генерируется нужное число полей
+
+            if (radioProduct.Checked == true)
+            f = new FormForRecords("product");
+
+            if (radioManager.Checked == true)
+                f = new FormForRecords("manager");
+
+            if (radioProvider.Checked == true)
+                f = new FormForRecords("provider");
+
+            if (radioSale.Checked == true)
+                f = new FormForRecords("sale");
+
+            if (radioStorage.Checked == true)
+                f = new FormForRecords("storage");
+
+            f.ShowDialog();    
         }
     }
 }

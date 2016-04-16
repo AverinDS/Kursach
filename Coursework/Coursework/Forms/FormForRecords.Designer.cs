@@ -42,6 +42,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormForRecords";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormForRecords";
             this.Load += new System.EventHandler(this.FormForRecords_Load);
             this.ResumeLayout(false);

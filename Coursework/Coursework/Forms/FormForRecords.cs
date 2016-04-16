@@ -15,12 +15,13 @@ namespace Coursework.Forms
         int X0 = 10;
         int Y0 = 10;
         int value = 0;//переменная для количества полей
-        int WidthOfLabels = 100;
+        int WidthOfLabels = 150;
 
-
-        Label[] labels = new Label[5];
-        TextBox[] texboxs = new TextBox[5];
+       
+        Label[] labels = new Label[6];
+        TextBox[] texboxs = new TextBox[6];
         Button buttonOk = new Button();
+        Button buttonCancel = new Button();
         
        
         public FormForRecords(string s)//пытаюсь создавать динамически поля (чтобы не городить множество форм)
@@ -28,8 +29,9 @@ namespace Coursework.Forms
             InitializeComponent();
             this.AutoSize = true;
             buttonOk.Click += new EventHandler(buttonOk_Click);
+            buttonCancel.Click += new EventHandler(buttonCancel_Click);
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
             {
                 labels[i] = new Label();
                 labels[i].Width = WidthOfLabels;
@@ -61,24 +63,147 @@ namespace Coursework.Forms
                         buttonOk.Text = "Ok";
                         buttonOk.Name = "buttonOk";
                         this.Controls.Add(buttonOk);
+
+                        buttonCancel.Location = new Point(X0, Y0);
+                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Name = "buttonCancel";
+                        this.Controls.Add(buttonCancel);
                         break;
                     }
-                case "provider": { break; }
-                case "sale": { break; }
-                case "manager": { break; }
-                case "storage": { break; }
+                case "provider": {
+                        value = 3;
+                        labels[0].Text = "ID";
+                        labels[1].Text = "Наименование производителя";
+                        labels[2].Text = "Валюта торговли";
+                       
+
+                        for (int i = 0; i < value; i++)
+                        {
+                            labels[i].Location = new Point(X0, Y0);
+                            texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            Y0 += 30;
+                            this.Controls.Add(labels[i]);
+                            this.Controls.Add(texboxs[i]);
+                        }
+
+
+                        buttonOk.Location = new Point(X0 + WidthOfLabels, Y0);
+                        buttonOk.Text = "Ok";
+                        buttonOk.Name = "buttonOk";
+                        this.Controls.Add(buttonOk);
+
+                        buttonCancel.Location = new Point(X0, Y0);
+                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Name = "buttonCancel";
+                        this.Controls.Add(buttonCancel);
+
+                        break;
+                    }
+                case "sale": {
+                        value = 6;
+                        labels[0].Text = "ID";
+                        labels[1].Text = "Дата продажи";
+                        labels[2].Text = "Количество";
+                        labels[3].Text = "id или наименование товара";
+                        labels[4].Text = "id или ФИО менеджера";
+                        labels[5].Text = "id склад-товар-остаток";
+
+
+                        for (int i = 0; i < value; i++)
+                        {
+                            labels[i].Location = new Point(X0, Y0);
+                            texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            Y0 += 30;
+                            this.Controls.Add(labels[i]);
+                            this.Controls.Add(texboxs[i]);
+                        }
+
+
+                        buttonOk.Location = new Point(X0 + WidthOfLabels, Y0);
+                        buttonOk.Text = "Ok";
+                        buttonOk.Name = "buttonOk";
+                        this.Controls.Add(buttonOk);
+
+                        buttonCancel.Location = new Point(X0, Y0);
+                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Name = "buttonCancel";
+                        this.Controls.Add(buttonCancel);
+
+                        break;
+                    }
+                case "manager": {
+                        value = 2;
+                        labels[0].Text = "ID";
+                        labels[1].Text = "ФИО";
+                        
+
+                        for (int i = 0; i < value; i++)
+                        {
+                            labels[i].Location = new Point(X0, Y0);
+                            texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            Y0 += 30;
+                            this.Controls.Add(labels[i]);
+                            this.Controls.Add(texboxs[i]);
+                        }
+
+
+                        buttonOk.Location = new Point(X0 + WidthOfLabels, Y0);
+                        buttonOk.Text = "Ok";
+                        buttonOk.Name = "buttonOk";
+                        this.Controls.Add(buttonOk);
+
+                        buttonCancel.Location = new Point(X0, Y0);
+                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Name = "buttonCancel";
+                        this.Controls.Add(buttonCancel);
+
+                        break;
+                    }
+                case "storage": {
+                        value = 2;
+                        labels[0].Text = "ID";
+                        labels[1].Text = "Адрес";
+                       
+
+
+                        for (int i = 0; i < value; i++)
+                        {
+                            labels[i].Location = new Point(X0, Y0);
+                            texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            Y0 += 30;
+                            this.Controls.Add(labels[i]);
+                            this.Controls.Add(texboxs[i]);
+                        }
+
+
+                        buttonOk.Location = new Point(X0 + WidthOfLabels, Y0);
+                        buttonOk.Text = "Ok";
+                        buttonOk.Name = "buttonOk";
+                        this.Controls.Add(buttonOk);
+
+                        buttonCancel.Location = new Point(X0, Y0);
+                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Name = "buttonCancel";
+                        this.Controls.Add(buttonCancel);
+
+                        break;
+                    }
             }
 
         }
 
         private void FormForRecords_Load(object sender, EventArgs e)
         {
+           
 
         }
         private void buttonOk_Click(object sender, EventArgs e)
         {
+            this.Close();//ИЗМЕНИТЬ
+        }
+        private void buttonCancel_Click (object sender, EventArgs e)
+        {
             this.Close();
-
         }
     }
 }
