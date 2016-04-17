@@ -8,3 +8,4 @@ C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\De
 C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.exe
 C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.pdb
 C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.Forms.FormForRecords.resources
+C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.Forms.FormAdditionalFunc.resources

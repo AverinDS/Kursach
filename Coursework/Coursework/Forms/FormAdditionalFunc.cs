@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Coursework.Forms;
 
 namespace Coursework.Forms
 {
@@ -15,6 +16,17 @@ namespace Coursework.Forms
         public FormAdditionalFunc()
         {
             InitializeComponent();
+        }
+
+        private void FormAdditionalFunc_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.ShowDialog();
         }
     }
 }
