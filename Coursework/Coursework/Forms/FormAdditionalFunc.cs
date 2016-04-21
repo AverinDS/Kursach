@@ -20,13 +20,26 @@ namespace Coursework.Forms
 
         private void FormAdditionalFunc_Load(object sender, EventArgs e)
         {
-
+            if(CheckNet())
+            {
+                StatusOfNetwork.Text = "Состояние сети: подключено";
+            }
+            else
+            {
+                StatusOfNetwork.Text = "Состояние сети: НЕ подключено";
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Form1 f = new Form1();
             f.ShowDialog();
+        }
+
+        private bool CheckNet()
+        {
+            //проверка доступа в интернет
+            return false;
         }
     }
 }
