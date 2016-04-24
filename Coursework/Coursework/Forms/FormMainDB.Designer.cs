@@ -36,6 +36,9 @@
             this.radioManager = new System.Windows.Forms.RadioButton();
             this.radioStorage = new System.Windows.Forms.RadioButton();
             this.radioSale = new System.Windows.Forms.RadioButton();
+            this.dataGridViewDB = new System.Windows.Forms.DataGridView();
+            this.ScrollBarForDB = new System.Windows.Forms.HScrollBar();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDB)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonAdd
@@ -118,11 +121,31 @@
             this.radioSale.Text = "Продажа";
             this.radioSale.UseVisualStyleBackColor = true;
             // 
+            // dataGridViewDB
+            // 
+            this.dataGridViewDB.AllowUserToAddRows = false;
+            this.dataGridViewDB.AllowUserToDeleteRows = false;
+            this.dataGridViewDB.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewDB.Location = new System.Drawing.Point(17, 12);
+            this.dataGridViewDB.Name = "dataGridViewDB";
+            this.dataGridViewDB.ReadOnly = true;
+            this.dataGridViewDB.Size = new System.Drawing.Size(365, 315);
+            this.dataGridViewDB.TabIndex = 4;
+            // 
+            // ScrollBarForDB
+            // 
+            this.ScrollBarForDB.Location = new System.Drawing.Point(381, 15);
+            this.ScrollBarForDB.Name = "ScrollBarForDB";
+            this.ScrollBarForDB.Size = new System.Drawing.Size(8, 311);
+            this.ScrollBarForDB.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 338);
+            this.Controls.Add(this.ScrollBarForDB);
+            this.Controls.Add(this.dataGridViewDB);
             this.Controls.Add(this.radioSale);
             this.Controls.Add(this.radioStorage);
             this.Controls.Add(this.radioProduct);
@@ -136,6 +159,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,6 +175,8 @@
         private System.Windows.Forms.RadioButton radioManager;
         private System.Windows.Forms.RadioButton radioStorage;
         private System.Windows.Forms.RadioButton radioSale;
+        private System.Windows.Forms.DataGridView dataGridViewDB;
+        private System.Windows.Forms.HScrollBar ScrollBarForDB;
     }
 }
 

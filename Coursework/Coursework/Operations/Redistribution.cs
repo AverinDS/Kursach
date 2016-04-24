@@ -8,5 +8,7 @@ namespace Coursework
 {
     class Redistribution //перераспределение
     {
+        public Redistribution()
+        { }
     }
 }

@@ -7,27 +7,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using System.Net.NetworkInformation;
+using System.Threading;
 using Coursework.Forms;
 
 namespace Coursework.Forms
 {
     public partial class FormAdditionalFunc : Form
     {
+        TrackingStandart tracking = new TrackingStandart();
+        Redistribution redistribution = new Redistribution();
+
         public FormAdditionalFunc()
         {
             InitializeComponent();
         }
-
+       
+       
         private void FormAdditionalFunc_Load(object sender, EventArgs e)
         {
-            if(CheckNet())
-            {
-                StatusOfNetwork.Text = "Состояние сети: подключено";
-            }
-            else
-            {
-                StatusOfNetwork.Text = "Состояние сети: НЕ подключено";
-            }
+            StatusOfNetwork.Text = "Состояние сети: проверка...";
+            StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от " + DateTime.Now.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -36,10 +36,18 @@ namespace Coursework.Forms
             f.ShowDialog();
         }
 
-        private bool CheckNet()
+        private void button2_Click(object sender, EventArgs e)
         {
-            //проверка доступа в интернет
-            return false;
+            tracking.updateStandart();
+            StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от " + DateTime.Now.ToString();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            FormForRecords formForRecords = new FormForRecords("redistribution");
+            formForRecords.ShowDialog();
         }
     }
+
+       
 }
