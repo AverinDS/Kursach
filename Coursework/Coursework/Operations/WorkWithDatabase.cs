@@ -38,7 +38,7 @@ namespace Coursework
 
         public void UpdateDB(string table, string nameOfLine, string value, string id )
         {
-            command = new SQLiteCommand(String.Format("update {0} set {1} = {2} where ID = {3}", table, nameOfLine, id), connect);
+            command = new SQLiteCommand(String.Format("update {0} set {1} = {2} where ID = {3}", table, nameOfLine,value, id), connect);
             connect.Open();
             command.ExecuteNonQuery();
             connect.Close();

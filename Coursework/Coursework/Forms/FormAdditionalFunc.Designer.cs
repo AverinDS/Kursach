@@ -34,7 +34,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.StatusOfNetwork = new System.Windows.Forms.Label();
             this.StatusOfUpdatingStandarts = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.RedistributionLabel = new System.Windows.Forms.Label();
             this.RedistributionButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -94,14 +94,14 @@
             this.StatusOfUpdatingStandarts.TabIndex = 5;
             this.StatusOfUpdatingStandarts.Text = "Курс валют:";
             // 
-            // label1
+            // RedistributionLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(230, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Последнее перераспределение товаров: ??";
+            this.RedistributionLabel.AutoSize = true;
+            this.RedistributionLabel.Location = new System.Drawing.Point(12, 61);
+            this.RedistributionLabel.Name = "RedistributionLabel";
+            this.RedistributionLabel.Size = new System.Drawing.Size(230, 13);
+            this.RedistributionLabel.TabIndex = 6;
+            this.RedistributionLabel.Text = "Последнее перераспределение товаров: ??";
             // 
             // RedistributionButton
             // 
@@ -119,7 +119,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 149);
             this.Controls.Add(this.RedistributionButton);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.RedistributionLabel);
             this.Controls.Add(this.StatusOfUpdatingStandarts);
             this.Controls.Add(this.StatusOfNetwork);
             this.Controls.Add(this.button4);
@@ -142,7 +142,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label StatusOfNetwork;
         private System.Windows.Forms.Label StatusOfUpdatingStandarts;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label RedistributionLabel;
         private System.Windows.Forms.Button RedistributionButton;
     }
 }

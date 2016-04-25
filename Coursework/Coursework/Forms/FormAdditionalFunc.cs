@@ -27,6 +27,7 @@ namespace Coursework.Forms
         private void FormAdditionalFunc_Load(object sender, EventArgs e)
         {
             StatusOfNetwork.Text = "Состояние сети: проверка...";
+            tracking.updateStandart();
             StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от " + DateTime.Now.ToString();
         }
 
@@ -45,7 +46,12 @@ namespace Coursework.Forms
         private void button5_Click(object sender, EventArgs e)
         {
             FormForRecords formForRecords = new FormForRecords("redistribution");
-            formForRecords.ShowDialog();
+            //try
+            //{
+                formForRecords.ShowDialog();
+                RedistributionLabel.Text = "Последнее перераспределение товара: " + DateTime.Now.ToString();
+            //}
+            //catch { }
         }
     }
 
