@@ -59,6 +59,7 @@
             this.buttonEdit.TabIndex = 0;
             this.buttonEdit.Text = "Редактирование";
             this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
             // buttonDelete
             // 

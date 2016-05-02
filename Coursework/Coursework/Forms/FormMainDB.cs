@@ -15,6 +15,7 @@ namespace Coursework
 {
     public partial class Form1 : Form
     {
+        WorkWithDatabase WorkerDatabase = new WorkWithDatabase();
         public Form1()
         {
             InitializeComponent();
@@ -22,7 +23,9 @@ namespace Coursework
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!File.Exists(@"E:\Database.sqlite"))//попытка найти БД. если её нет, создаём новую
+            WorkerDatabase.CreatingOrFindingTable();
+
+            /*if (!File.Exists(@"E:\Database.sqlite"))//попытка найти БД. если её нет, создаём новую
             {
                 SQLiteConnection.CreateFile(@"E:\Database.sqlite");
                 SQLiteConnection connect = new SQLiteConnection(@"Data Source = E:\Database.sqlite; Version = 3");
@@ -35,7 +38,7 @@ namespace Coursework
                 command.ExecuteNonQuery();
                 connect.Close();
                 MessageBox.Show("File of database not found. New file was create");
-            }
+            }*/
 
         }
 
@@ -57,8 +60,32 @@ namespace Coursework
 
             if (radioStorage.Checked == true)
                 f = new FormForRecords("storage");
+            f.ChooseProcess = "insert";
+            f.ShowDialog();
+            
+        }
 
-            f.ShowDialog();    
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            FormForRecords f = null;// в зависимости от передаваемого слова в форму генерируется нужное число полей
+
+            if (radioProduct.Checked == true)
+                f = new FormForRecords("product");
+
+            if (radioManager.Checked == true)
+                f = new FormForRecords("manager");
+
+            if (radioProvider.Checked == true)
+                f = new FormForRecords("provider");
+
+            if (radioSale.Checked == true)
+                f = new FormForRecords("sale");
+
+            if (radioStorage.Checked == true)
+                f = new FormForRecords("storage");
+            f.ChooseProcess = "edit";
+            f.ShowDialog();
+
         }
     }
 }

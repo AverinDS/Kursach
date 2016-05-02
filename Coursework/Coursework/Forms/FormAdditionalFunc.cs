@@ -46,12 +46,12 @@ namespace Coursework.Forms
         private void button5_Click(object sender, EventArgs e)
         {
             FormForRecords formForRecords = new FormForRecords("redistribution");
-            //try
-            //{
+            try
+            {
                 formForRecords.ShowDialog();
                 RedistributionLabel.Text = "Последнее перераспределение товара: " + DateTime.Now.ToString();
-            //}
-            //catch { }
+            }
+            catch { }
         }
     }
 

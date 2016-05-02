@@ -25,10 +25,10 @@ namespace Coursework
                 StreamReader readerLine = new StreamReader(response.GetResponseStream());                       //
                 string s = readerLine.ReadToEnd();                                                    // // // // 
 
-                string USD = s.Substring((s.IndexOf("Доллар США <ins>$</ins>\r\n") + 306), 7);  //ищем значение доллара  
+                string USD = s.Substring((s.IndexOf("Доллар США <ins>$</ins>\r\n") + 308), 7);  //ищем значение доллара  
                 RUB_dollar = " USD: " + USD;
 
-                string EUR = s.Substring((s.IndexOf("Евро <ins>€</ins>") + 300), 7); // ищем значение евро
+                string EUR = s.Substring((s.IndexOf("Евро <ins>€</ins>") + 304), 7); // ищем значение евро
                 RUB_euro = " EUR: " + EUR;
             }
             catch

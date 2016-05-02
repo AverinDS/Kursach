@@ -20,8 +20,11 @@ namespace Coursework.Forms
         int value = 0;//переменная для количества полей
         int value1 = 0;
         int WidthOfLabels = 150;
+        int idOfDeletingOrEditing;
         string entity = "";
+        string process = "";
         string[] rules;
+        bool IsEdit, IsDelete;
 
 
         Label[] labels = new Label[6];
@@ -29,17 +32,29 @@ namespace Coursework.Forms
         Button buttonOk = new Button();
         Button buttonCancel = new Button();
         Button buttonRules = new Button();
-        Label[] labels2 = new Label[6];//это для отражения записи Если товара с id =... осталось ...
-        TextBox[] texbox2 = new TextBox[6] ;
-        Label[] labels3= new Label[6];
+        Label[] labels2;//это для отражения записи Если товара с id =... осталось ...
+        TextBox[] texbox2;//
+        Label[] labels3;
 
-        public int setting
+        /* public int setting
+         {
+             set { this.value = value; }
+         }*/
+
+        public string ChooseProcess
         {
-            set { this.value = value; }
+            set { this.process = value; }
+        }
+
+        public int GettingId
+        {
+            get { return this.idOfDeletingOrEditing; }
         }
 
         public FormForRecords(string s)//пытаюсь создавать динамически поля (чтобы не городить множество форм)
         {
+            IsDelete = false;
+            IsEdit = false;
             entity = s;
             InitializeComponent();
             this.AutoSize = true; ;
@@ -53,7 +68,7 @@ namespace Coursework.Forms
                 labels[i].Width = WidthOfLabels;
                 texboxs[i] = new TextBox();
                 texboxs[i].Width = WidthOfLabels;
-                //texbox2[i] = new TextBox();
+
             }
 
             switch (s)
@@ -216,7 +231,7 @@ namespace Coursework.Forms
                             value = 1;
                         }
                         else
-                        { 
+                        {
                             value = 0;
 
                             string line = "";
@@ -246,13 +261,13 @@ namespace Coursework.Forms
 
                         }
 
-                        Label[] labels2 = new Label[value];//это для отражения записи Если товара с id =... осталось ...
-                        TextBox[] texbox2 = new TextBox[value];
-                        Label[] labels3 = new Label[value];
+                        labels2 = new Label[value];//это для отражения записи Если товара с id =... осталось ...
+                        texbox2 = new TextBox[value];
+                        labels3 = new Label[value];
                         labels = new Label[value];
                         texboxs = new TextBox[value];
-                        
-                        
+
+
                         for (int i = 0; i < value; i++)
                         {
                             labels[i] = new Label();
@@ -266,7 +281,7 @@ namespace Coursework.Forms
 
                             labels2[i] = new Label();
                             labels3[i] = new Label();
-                           
+
 
                             labels2[i].Text = " осталось ";
                             labels2[i].Width = WidthOfLabels;
@@ -318,7 +333,7 @@ namespace Coursework.Forms
 
                         buttonRules.Location = new Point(X0 + 2 * WidthOfLabels, Y0);
                         buttonRules.Text = "Добавить ещё строку для правила";
-                        buttonRules.Width = 2*WidthOfLabels;
+                        buttonRules.Width = 2 * WidthOfLabels;
                         buttonRules.Name = "buttonRules";
                         this.Controls.Add(buttonRules);
                         value1 = value;
@@ -326,8 +341,53 @@ namespace Coursework.Forms
 
 
                     }
+                case "edit":
+                case "delete":
+                    {
+                        value = 1;
+                        labels[0].Text = "Введите ID искомой записи:";
+                        for (int i = 0; i < value; i++)
+                        {
+                            labels[i].Location = new Point(X0, Y0);
+                            texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            Y0 += 30;
+                            this.Controls.Add(labels[i]);
+                            this.Controls.Add(texboxs[i]);
+                        }
+
+
+                        buttonOk.Location = new Point(X0 + WidthOfLabels, Y0);
+                        buttonOk.Text = "Ok";
+                        buttonOk.Name = "buttonOk";
+                        this.Controls.Add(buttonOk);
+
+                        buttonCancel.Location = new Point(X0, Y0);
+                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Name = "buttonCancel";
+                        this.Controls.Add(buttonCancel);
+                        break;
+                    }
             }
 
+        }
+
+        public void Edit(string id)
+        {
+            WorkWithDatabase DB = new WorkWithDatabase();
+            string information = "";
+            switch (entity)
+            {
+                case "product": { information = DB.GettingInfo("product", "id = " + id.ToString()); break; }
+                case "provider": { information = DB.GettingInfo("provider", "id = " + id.ToString()); break; }
+                case "sale": { information = DB.GettingInfo("sale", "id = " + id.ToString()); break; }
+                case "manager": { information = DB.GettingInfo("manager", "id = " + id.ToString()); break; }
+                case "storage": { information = DB.GettingInfo("storage", "id = " + id.ToString()); break; }
+            }
+            for (int i = 0; i < value; i++)//в теории должно заполнять texboxы
+            {
+                texboxs[i].Text = information.Substring(0, information.IndexOf(' '));
+                information = information.Remove(0, information.IndexOf(' ') - 1);
+            }
         }
 
         private void FormForRecords_Load(object sender, EventArgs e)
@@ -337,44 +397,154 @@ namespace Coursework.Forms
         }
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            buttonRules.Enabled = true; 
-            if (entity == "redistribution")
+            switch (entity)
             {
-                
-              
-                StreamWriter write = new StreamWriter(@"E:/rules.txt");
-                for (int i = 0; i < value; i++)
-                {
-                    try
+                case "redistribution":
                     {
-                        if (texboxs[i].Text != "" && texbox2[i].Text != "")
+                        bool checkEmpty = false;
+
+                        for (int i = 0; i < value; i++)//цикл проверки введённых данных в текстбоксах
                         {
-                            write.WriteLine(texboxs[i].Text + " " + texbox2[i].Text);
+                            try
+                            {
+                                int.Parse(texboxs[i].Text);
+                                int.Parse(texboxs[i].Text);
+                            }
+                            catch
+                            {
+                                checkEmpty = true;
+                            }
+                            if (texboxs[i].Text == "" || texbox2[i].Text == "")
+                            {
+                                checkEmpty = true;
+                                break;
+
+                            }
                         }
+                        if (!checkEmpty)
+                        {
+                            buttonRules.Enabled = true;
+                            StreamWriter write = new StreamWriter(@"E:/rules.txt");
+                            for (int i = 0; i < value; i++)
+                            {
+                                try
+                                {
+                                    if (texboxs[i].Text != "" && texbox2[i].Text != "")
+                                    {
+                                        write.WriteLine(texboxs[i].Text + " " + texbox2[i].Text);
+                                    }
+                                }
+                                catch { }
+                            }
+                            write.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Заполнены не все поля или неверный формат ввода, правила не сохранены");
+                        }
+                        break;
                     }
-                    catch { }
-                }
-                write.Close();
+                case "product":
+                    {
+                        try //так же включает в себя проверку на заполненность всех полей
+                        {
+                            value = 4;
+                            string[] query = new string[value];
+                            for (int i = 0; i < value; i++)
+                            {
+                                query[i] = texboxs[i].Text;
+                                if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
+                            }
+                            InsertOrUpdate();
+                           
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    }
+
+                case "provider":
+                    {
+                        try //так же включает в себя проверку на заполненность всех полей
+                        {
+                            value = 3;
+                            string[] query = new string[value];
+                            for (int i = 0; i < value; i++)
+                            {
+                                query[i] = texboxs[i].Text;
+                                if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
+                            }
+                            InsertOrUpdate();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    }
+               
+                   
             }
         }
+        private void InsertOrUpdate()
+        {
+            switch (process)
+            {
+                case "insert":
+                    {
+                        try
+                        {
+                            WorkWithDatabase DB = new WorkWithDatabase();
+                            DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
+                            MessageBox.Show("Успешно выполнено!");
+                            this.Close();
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show("Ошибка, возможно товар с данным id уже существует?");
+                        }
+                            break;
+
+                    }
+                case "edit":
+                    {
+                        try
+                        {
+                            WorkWithDatabase DB = new WorkWithDatabase();
+                            DB.DeleteFromDB(entity, texboxs[0].Text);//придумать что-нибудь получше?
+                            DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
+                            MessageBox.Show("Успех!");
+                            this.Close();
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Ошибка, возможно товар с данным id уже существует?");
+                        }
+                            break;
+                    }
+            }
+        }
+
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
         private void buttonRules_Click(object sender, EventArgs e)
         {
-           
+
             bool checkEmpty = false;
 
-            //for (int i = 0; i < value; i++)
-            //{
-            //    if (texboxs[i].Text == "" || texbox2[i].Text == "")
-            //    {
-            //        checkEmpty = true;
-            //        break;
+            for (int i = 0; i < value; i++)
+            {
+                if (texboxs[i].Text == "" || texbox2[i].Text == "")
+                {
+                    checkEmpty = true;
+                    break;
 
-            //    }
-            //}
+                }
+            }
             if (!checkEmpty)
             {
                 buttonRules.Enabled = false;
@@ -468,5 +638,20 @@ namespace Coursework.Forms
                 MessageBox.Show("Не заполнено по крайней мере одно поле");
             }
         }
+       // public void Add()
+        //{
+        //    WorkWithDatabase DB = new WorkWithDatabase();
+        //    try
+        //    {
+        //        DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+
+        //}
+
     }
 }
+    
