@@ -69,22 +69,30 @@ namespace Coursework
         {
             FormForRecords f = null;// в зависимости от передаваемого слова в форму генерируется нужное число полей
 
-            if (radioProduct.Checked == true)
-                f = new FormForRecords("product");
-
-            if (radioManager.Checked == true)
-                f = new FormForRecords("manager");
-
-            if (radioProvider.Checked == true)
-                f = new FormForRecords("provider");
-
-            if (radioSale.Checked == true)
-                f = new FormForRecords("sale");
-
-            if (radioStorage.Checked == true)
-                f = new FormForRecords("storage");
+            f = new FormForRecords("edit");
             f.ChooseProcess = "edit";
             f.ShowDialog();
+            int id = f.GettingId;
+
+            if (!f.GettingCancel)
+            {
+                if (radioProduct.Checked == true)
+                    f = new FormForRecords("product");
+
+                if (radioManager.Checked == true)
+                    f = new FormForRecords("manager");
+
+                if (radioProvider.Checked == true)
+                    f = new FormForRecords("provider");
+
+                if (radioSale.Checked == true)
+                    f = new FormForRecords("sale");
+
+                if (radioStorage.Checked == true)
+                    f = new FormForRecords("storage");
+                f.ChooseProcess = "edit";
+                f.ShowDialog();
+            }
 
         }
     }

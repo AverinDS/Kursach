@@ -42,6 +42,7 @@
             this.Name = "FormForRecords";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormForRecords";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormForRecords_FormClosing);
             this.Load += new System.EventHandler(this.FormForRecords_Load);
             this.ResumeLayout(false);
 

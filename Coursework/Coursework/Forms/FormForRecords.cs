@@ -24,7 +24,8 @@ namespace Coursework.Forms
         string entity = "";
         string process = "";
         string[] rules;
-        bool IsEdit, IsDelete;
+        bool cancel = false;
+       // bool IsEdit, IsDelete;
 
 
         Label[] labels = new Label[6];
@@ -51,10 +52,15 @@ namespace Coursework.Forms
             get { return this.idOfDeletingOrEditing; }
         }
 
+        public bool GettingCancel
+        {
+            get { return this.cancel; }
+        }
+
         public FormForRecords(string s)//пытаюсь создавать динамически поля (чтобы не городить множество форм)
         {
-            IsDelete = false;
-            IsEdit = false;
+            //IsDelete = false;
+            //IsEdit = false;
             entity = s;
             InitializeComponent();
             this.AutoSize = true; ;
@@ -397,7 +403,21 @@ namespace Coursework.Forms
         }
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            switch (entity)
+            if (process == "edit" || process == "delete")//проверка при вводе на число(работает при удалении или редактировании записи)
+            {
+                try
+                {
+                    idOfDeletingOrEditing = int.Parse(texboxs[0].Text);
+                    this.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Неверный формат ввода");
+                    return;
+                }
+            }
+               
+             switch (entity)
             {
                 case "redistribution":
                     {
@@ -526,11 +546,21 @@ namespace Coursework.Forms
                     }
             }
         }
+        public void GetInformationForInserting()
+        {
+
+        }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        private void FormForRecords_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            cancel = true;
+        }
+
         private void buttonRules_Click(object sender, EventArgs e)
         {
 
