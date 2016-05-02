@@ -62,6 +62,7 @@ namespace Coursework.Forms
             //IsDelete = false;
             //IsEdit = false;
             entity = s;
+            cancel = false;
             InitializeComponent();
             this.AutoSize = true; ;
             buttonOk.Click += new EventHandler(buttonOk_Click);
@@ -74,6 +75,7 @@ namespace Coursework.Forms
                 labels[i].Width = WidthOfLabels;
                 texboxs[i] = new TextBox();
                 texboxs[i].Width = WidthOfLabels;
+               
 
             }
 
@@ -425,6 +427,7 @@ namespace Coursework.Forms
 
                         for (int i = 0; i < value; i++)//цикл проверки введённых данных в текстбоксах
                         {
+                            texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
                             try
                             {
                                 int.Parse(texboxs[i].Text);
@@ -472,6 +475,7 @@ namespace Coursework.Forms
                             string[] query = new string[value];
                             for (int i = 0; i < value; i++)
                             {
+                                texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
                                 query[i] = texboxs[i].Text;
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                             }
@@ -493,6 +497,7 @@ namespace Coursework.Forms
                             string[] query = new string[value];
                             for (int i = 0; i < value; i++)
                             {
+                                texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
                                 query[i] = texboxs[i].Text;
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                             }
@@ -521,11 +526,11 @@ namespace Coursework.Forms
                             MessageBox.Show("Успешно выполнено!");
                             this.Close();
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show("Ошибка, возможно товар с данным id уже существует?");
                         }
-                            break;
+                        break;
 
                     }
                 case "edit":
@@ -542,23 +547,41 @@ namespace Coursework.Forms
                         {
                             MessageBox.Show("Ошибка, возможно товар с данным id уже существует?");
                         }
-                            break;
+                        break;
                     }
             }
         }
-        public void GetInformationForInserting()
+        public void GetInformationForInserting(string id)
         {
+            WorkWithDatabase DB = new WorkWithDatabase();
+            string value = DB.GettingInfo(entity, "id =" + id);
+            if( value =="")
+            {
+                MessageBox.Show("Записи не найдено");
+                cancel = true;
+                return;
+            }
+            int i = 0;
+            while (value != "")
+            {
+                texboxs[i].Text = value.Substring(0, value.IndexOf(' '));
+                value = value.Remove(0, value.IndexOf(' ')+1);
+                i++;
+            }
+            texboxs[0].Enabled = false;
+
 
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            cancel = true;
             this.Close();
         }
 
         private void FormForRecords_FormClosing(object sender, FormClosingEventArgs e)
         {
-            cancel = true;
+           // cancel = true;
         }
 
         private void buttonRules_Click(object sender, EventArgs e)
@@ -668,6 +691,7 @@ namespace Coursework.Forms
                 MessageBox.Show("Не заполнено по крайней мере одно поле");
             }
         }
+        
        // public void Add()
         //{
         //    WorkWithDatabase DB = new WorkWithDatabase();

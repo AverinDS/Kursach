@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Data;
 using System.IO;
 
 namespace Coursework
@@ -52,8 +53,21 @@ namespace Coursework
             command = new SQLiteCommand(String.Format("select * from {0} where {1}", table, query), connect);
             connect.Open();
             SQLiteDataReader reader = command.ExecuteReader();
+          
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
             connect.Close();
-            return reader.ToString();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Columns.Count; i++)
+                {
+                    values += TableForResult.Rows[0][i] + " ";
+                }
+            }
+            catch { values = ""; }
+           
+            return values;
         }
 
         public void CreatingOrFindingTable()

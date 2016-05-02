@@ -91,8 +91,46 @@ namespace Coursework
                 if (radioStorage.Checked == true)
                     f = new FormForRecords("storage");
                 f.ChooseProcess = "edit";
-                f.ShowDialog();
+                f.GetInformationForInserting(id.ToString());
+
+                if (!f.GettingCancel)
+                {
+                    f.ShowDialog();
+                }
             }
+
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            FormForRecords f = new FormForRecords("delete");
+            f.ChooseProcess = "delete";
+            f.ShowDialog();
+           
+            int id = f.GettingId;
+            WorkWithDatabase DB = new WorkWithDatabase();
+            try
+            {
+                if (!f.GettingCancel)
+                {
+                    if (radioProduct.Checked == true)
+                        DB.DeleteFromDB("product", id.ToString());
+
+                    if (radioManager.Checked == true)
+                        DB.DeleteFromDB("manager", id.ToString());
+
+                    if (radioProvider.Checked == true)
+                        DB.DeleteFromDB("provider", id.ToString());
+
+                    if (radioSale.Checked == true)
+                        DB.DeleteFromDB("sale", id.ToString());
+
+                    if (radioStorage.Checked == true)
+                        DB.DeleteFromDB("storage", id.ToString());
+                    MessageBox.Show("Успех");
+                }
+            }
+            catch { MessageBox.Show("Ошибка, данная запись действительно существует?"); }
 
         }
     }

@@ -69,6 +69,7 @@
             this.buttonDelete.TabIndex = 0;
             this.buttonDelete.Text = "Удаление";
             this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // radioProduct
             // 
