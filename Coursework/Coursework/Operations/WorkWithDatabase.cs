@@ -32,12 +32,45 @@ namespace Coursework
             connect.Close();
         }
 
-        public void DeleteFromDB(string table, string id)
+        public void DeleteFromDB(string table, string query)
         {
-            command = new SQLiteCommand(String.Format("delete from {0} where ID = {1}", table,id), connect);
+            command = new SQLiteCommand(String.Format("delete from {0} where {1}", table,query), connect);
             connect.Open();
             command.ExecuteNonQuery();
             connect.Close();
+            switch (table)//так как ограничения не срабатывают, приходится ручками удалять связанные записи (Великая Рекурсия XD)
+            {
+                case "product":
+                    {
+                        DeleteFromDB("balance", "ProductID = " + query.Substring(query.IndexOf('=') + 1));
+                        DeleteFromDB("sale", "ProductID = " + query.Substring(query.IndexOf('=') + 1));
+                        break;
+                    }
+                case "manager":
+                    {
+                        DeleteFromDB("sale", "ManagerID = " + query.Substring(query.IndexOf('=') + 1));
+                        break;
+                    }
+                case "provider":
+                    {
+                        DeleteFromDB("product", "ProviderID = " + query.Substring(query.IndexOf('=') + 1));
+                        break;
+                    }
+                //case "sale": Этот вариант не нуждается в удалении сопустствующих таблиц
+                //    {
+                //        break;
+                //    }
+                case "storage":
+                    {
+                        DeleteFromDB("balance", "StorageID = " + query.Substring(query.IndexOf('=') + 1));
+                        break;
+                    }
+                case "balance":
+                    {
+                        DeleteFromDB("sale", "BalanceID = " + query.Substring(query.IndexOf('=') + 1));
+                        break;
+                    }
+            }
         }
 
         public void UpdateDB(string table, string nameOfLine, string value, string id )
@@ -76,12 +109,12 @@ namespace Coursework
             if (!File.Exists(@"E:\Database.sqlite"))
             {
                 SQLiteConnection.CreateFile(@"E:\Database.sqlite");
-                SQLiteCommand product = new SQLiteCommand("create table if not exists product (id INTEGER PRIMARY KEY, Name TEXT, Price INTEGER, ProviderID INTEGER, CONSTRAINT Product_Providerfk FOREIGN KEY (ProviderID) REFERENCES Provider(ProviderID))", connect);
+                SQLiteCommand product = new SQLiteCommand("create table if not exists product (id INTEGER PRIMARY KEY, Name TEXT, Price INTEGER, ProviderID INTEGER, CONSTRAINT Product_Providerfk FOREIGN KEY (ProviderID) REFERENCES Provider(ID))", connect);
                 SQLiteCommand manager = new SQLiteCommand("create table if not exists manager (id INTEGER PRIMARY KEY, FIO TEXT)", connect);
                 SQLiteCommand provider = new SQLiteCommand("create table if not exists provider (id INTEGER PRIMARY KEY, Name TEXT, Currensy TEXT)", connect);
-                SQLiteCommand sale = new SQLiteCommand("create table if not exists sale (id INTEGER PRIMARY KEY, Date TEXT, Price INTEGER, ProductID INTEGER, ManagerID INTEGER, CONSTRAINT Sale_Productfk FOREIGN KEY (ProductID) REFERENCES Product(ProductID),CONSTRAINT Sale_Managerfk FOREIGN KEY (ManagerID) REFERENCES Manager(ManagerID) )", connect);
+                SQLiteCommand sale = new SQLiteCommand("create table if not exists sale (id INTEGER PRIMARY KEY, Date TEXT, Count INTEGER, ProductID INTEGER, ManagerID INTEGER, BalanceID INTEGER, CONSTRAINT Sale_Balancefk FOREIGN KEY(BalanceID) REFERENCES Balance(ID), CONSTRAINT Sale_Productfk FOREIGN KEY (ProductID) REFERENCES Product(ID),CONSTRAINT Sale_Managerfk FOREIGN KEY (ManagerID) REFERENCES Manager(ID) )", connect);
                 SQLiteCommand storage = new SQLiteCommand("create table if not exists storage (id INTEGER PRIMARY KEY, Adress TEXT)", connect);
-                SQLiteCommand balance = new SQLiteCommand("create table if not exists balance (id INTEGER PRIMARY KEY, Number INTEGER, ProductID INTEGER, StorageID INTEGER, CONSTRAINT Balance_Productfk FOREIGN KEY (ProductID) REFERENCES Product(ProductID), CONSTRAINT Balance_Storagefk FOREIGN KEY (StorageID) REFERENCES Storage(StorageID) )", connect);
+                SQLiteCommand balance = new SQLiteCommand("create table if not exists balance (id INTEGER PRIMARY KEY, Number INTEGER, ProductID INTEGER, StorageID INTEGER, CONSTRAINT Balance_Productfk FOREIGN KEY (ProductID) REFERENCES Product(ProductID), CONSTRAINT Balance_Storagefk FOREIGN KEY (StorageID) REFERENCES Storage(ID) )", connect);
 
                 connect.Open();
                 product.ExecuteNonQuery();
@@ -92,6 +125,19 @@ namespace Coursework
                 balance.ExecuteNonQuery();
                 connect.Close();
             }
+        }
+
+        public DataTable SelectForGrid(string table)
+        {
+            command = new SQLiteCommand(String.Format("select * from {0}", table), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            return (TableForResult);
+
         }
     }
 }

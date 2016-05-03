@@ -479,6 +479,8 @@ namespace Coursework.Forms
                                 query[i] = texboxs[i].Text;
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                             }
+                            double.Parse(texboxs[2].Text);
+                            int.Parse(texboxs[0].Text + texboxs[3].Text);
                             InsertOrUpdate();
                            
                         }
@@ -501,6 +503,54 @@ namespace Coursework.Forms
                                 query[i] = texboxs[i].Text;
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                             }
+                            int.Parse(texboxs[0].Text);
+                            texboxs[2].Text = texboxs[2].Text.ToLower();
+                            if (texboxs[2].Text != "rub" && texboxs[2].Text != "eur" && texboxs[2].Text != "usd")
+                                throw new Exception("Неверная валюта. Необходимо ввести rub eur или usd");  
+                            InsertOrUpdate();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    }
+
+                case "sale":
+                    {
+                        try //так же включает в себя проверку на заполненность всех полей
+                        {
+                            value = 6;
+                            string[] query = new string[value];
+                            for (int i = 0; i < value; i++)
+                            {
+                                texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
+                                query[i] = texboxs[i].Text;
+                                if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
+                                if (i != 1) int.Parse(texboxs[i].Text);
+                            }
+                           
+                            InsertOrUpdate();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+                    }
+                case "storage":
+                case "manager": {
+                        try //так же включает в себя проверку на заполненность всех полей
+                        {
+                            value = 2;
+                            string[] query = new string[value];
+                            for (int i = 0; i < value; i++)
+                            {
+                                texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
+                                query[i] = texboxs[i].Text;
+                                if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
+                            }
+                            int.Parse(texboxs[0].Text);
                             InsertOrUpdate();
                         }
                         catch (Exception ex)
@@ -510,6 +560,7 @@ namespace Coursework.Forms
                         break;
                     }
                
+                       
                    
             }
         }

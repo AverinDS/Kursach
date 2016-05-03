@@ -37,7 +37,6 @@
             this.radioStorage = new System.Windows.Forms.RadioButton();
             this.radioSale = new System.Windows.Forms.RadioButton();
             this.dataGridViewDB = new System.Windows.Forms.DataGridView();
-            this.ScrollBarForDB = new System.Windows.Forms.HScrollBar();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDB)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,6 +79,7 @@
             this.radioProduct.TabIndex = 1;
             this.radioProduct.Text = "Товар";
             this.radioProduct.UseVisualStyleBackColor = true;
+            this.radioProduct.CheckedChanged += new System.EventHandler(this.radioProduct_CheckedChanged);
             // 
             // radioProvider
             // 
@@ -90,6 +90,7 @@
             this.radioProvider.TabIndex = 1;
             this.radioProvider.Text = "Поставщик";
             this.radioProvider.UseVisualStyleBackColor = true;
+            this.radioProvider.CheckedChanged += new System.EventHandler(this.radioProvider_CheckedChanged);
             // 
             // radioManager
             // 
@@ -100,6 +101,7 @@
             this.radioManager.TabIndex = 1;
             this.radioManager.Text = "Менеджер";
             this.radioManager.UseVisualStyleBackColor = true;
+            this.radioManager.CheckedChanged += new System.EventHandler(this.radioManager_CheckedChanged);
             // 
             // radioStorage
             // 
@@ -110,6 +112,7 @@
             this.radioStorage.TabIndex = 2;
             this.radioStorage.Text = "Склад-филиал";
             this.radioStorage.UseVisualStyleBackColor = true;
+            this.radioStorage.CheckedChanged += new System.EventHandler(this.radioStorage_CheckedChanged);
             // 
             // radioSale
             // 
@@ -122,6 +125,7 @@
             this.radioSale.TabStop = true;
             this.radioSale.Text = "Продажа";
             this.radioSale.UseVisualStyleBackColor = true;
+            this.radioSale.CheckedChanged += new System.EventHandler(this.radioSale_CheckedChanged);
             // 
             // dataGridViewDB
             // 
@@ -133,20 +137,13 @@
             this.dataGridViewDB.ReadOnly = true;
             this.dataGridViewDB.Size = new System.Drawing.Size(365, 315);
             this.dataGridViewDB.TabIndex = 4;
-            // 
-            // ScrollBarForDB
-            // 
-            this.ScrollBarForDB.Location = new System.Drawing.Point(381, 15);
-            this.ScrollBarForDB.Name = "ScrollBarForDB";
-            this.ScrollBarForDB.Size = new System.Drawing.Size(8, 311);
-            this.ScrollBarForDB.TabIndex = 5;
+           // this.dataGridViewDB.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDB_CellContentClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 338);
-            this.Controls.Add(this.ScrollBarForDB);
             this.Controls.Add(this.dataGridViewDB);
             this.Controls.Add(this.radioSale);
             this.Controls.Add(this.radioStorage);
@@ -178,7 +175,6 @@
         private System.Windows.Forms.RadioButton radioStorage;
         private System.Windows.Forms.RadioButton radioSale;
         private System.Windows.Forms.DataGridView dataGridViewDB;
-        private System.Windows.Forms.HScrollBar ScrollBarForDB;
     }
 }
 

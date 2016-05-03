@@ -26,7 +26,17 @@ namespace Coursework.Forms
        
         private void FormAdditionalFunc_Load(object sender, EventArgs e)
         {
-            StatusOfNetwork.Text = "Состояние сети: проверка...";
+            WorkWithEmail Email = new WorkWithEmail();
+            if (!Email.CheckingInternet())
+            {
+                MessageBox.Show("Ошибка подключения к Интернету. Некоторый функционал может быть недоступен");
+                StatusOfNetwork.Text = "Состояние сети: Ошибка подключения";
+            }
+            else
+            {
+                StatusOfNetwork.Text = "Состояние сети: Подключено";
+            }
+           // StatusOfNetwork.Text = "Состояние сети: проверка...";
             tracking.updateStandart();
             StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от " + DateTime.Now.ToString();
         }

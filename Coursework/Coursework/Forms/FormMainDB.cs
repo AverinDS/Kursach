@@ -24,6 +24,9 @@ namespace Coursework
         private void Form1_Load(object sender, EventArgs e)
         {
             WorkerDatabase.CreatingOrFindingTable();
+            dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("sale");
+            
+
 
             /*if (!File.Exists(@"E:\Database.sqlite"))//попытка найти БД. если её нет, создаём новую
             {
@@ -62,7 +65,7 @@ namespace Coursework
                 f = new FormForRecords("storage");
             f.ChooseProcess = "insert";
             f.ShowDialog();
-            
+            UpdatingGrid();
         }
 
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -98,7 +101,7 @@ namespace Coursework
                     f.ShowDialog();
                 }
             }
-
+            UpdatingGrid();
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -114,24 +117,67 @@ namespace Coursework
                 if (!f.GettingCancel)
                 {
                     if (radioProduct.Checked == true)
-                        DB.DeleteFromDB("product", id.ToString());
+                        DB.DeleteFromDB("product", "ID ="+id.ToString());
 
                     if (radioManager.Checked == true)
-                        DB.DeleteFromDB("manager", id.ToString());
+                        DB.DeleteFromDB("manager", "ID ="+id.ToString());
 
                     if (radioProvider.Checked == true)
-                        DB.DeleteFromDB("provider", id.ToString());
+                        DB.DeleteFromDB("provider", "ID ="+id.ToString());
 
                     if (radioSale.Checked == true)
-                        DB.DeleteFromDB("sale", id.ToString());
+                        DB.DeleteFromDB("sale", "ID ="+id.ToString());
 
                     if (radioStorage.Checked == true)
-                        DB.DeleteFromDB("storage", id.ToString());
+                        DB.DeleteFromDB("storage", "ID =" + id.ToString());
                     MessageBox.Show("Успех");
                 }
             }
             catch { MessageBox.Show("Ошибка, данная запись действительно существует?"); }
+            UpdatingGrid();
+        }
 
+        private void radioSale_CheckedChanged(object sender, EventArgs e)
+        {
+            dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("sale");
+        }
+
+        private void radioProduct_CheckedChanged(object sender, EventArgs e)
+        {
+            dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("product");
+        }
+
+        private void radioProvider_CheckedChanged(object sender, EventArgs e)
+        {
+            dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("provider");
+        }
+
+        private void radioManager_CheckedChanged(object sender, EventArgs e)
+        {
+            dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("manager");
+        }
+
+        private void radioStorage_CheckedChanged(object sender, EventArgs e)
+        {
+            dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("storage");
+        }
+
+        private void UpdatingGrid()
+        {
+            if (radioProduct.Checked == true)
+                dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("product");
+
+            if (radioManager.Checked == true)
+                dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("manager");
+
+            if (radioProvider.Checked == true)
+                dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("provider");
+
+            if (radioSale.Checked == true)
+                dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("sale");
+
+            if (radioStorage.Checked == true)
+                dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("storage");
         }
     }
 }
