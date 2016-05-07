@@ -93,7 +93,7 @@ namespace Coursework
 
                 if (radioStorage.Checked == true)
                     f = new FormForRecords("storage");
-                f.ChooseProcess = "edit";
+               // f.ChooseProcess = "edit";
                 f.GetInformationForInserting(id.ToString());
 
                 if (!f.GettingCancel)

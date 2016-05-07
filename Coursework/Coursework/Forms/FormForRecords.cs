@@ -19,7 +19,7 @@ namespace Coursework.Forms
         int Y0 = 10;
         int value = 0;//переменная для количества полей
         int value1 = 0;
-        int WidthOfLabels = 150;
+        int WidthOfLabels = 200;
         int idOfDeletingOrEditing;
         string entity = "";
         string process = "";
@@ -33,6 +33,7 @@ namespace Coursework.Forms
         Button buttonOk = new Button();
         Button buttonCancel = new Button();
         Button buttonRules = new Button();
+        
         Label[] labels2;//это для отражения записи Если товара с id =... осталось ...
         TextBox[] texbox2;//
         Label[] labels3;
@@ -148,7 +149,7 @@ namespace Coursework.Forms
                         labels[2].Text = "Количество";
                         labels[3].Text = "id или наименование товара";
                         labels[4].Text = "id или ФИО менеджера";
-                        labels[5].Text = "id склад-товар-остаток";
+                        labels[5].Text = "id филиала(склада)";
 
 
                         for (int i = 0; i < value; i++)
@@ -330,20 +331,28 @@ namespace Coursework.Forms
 
 
                         buttonOk.Location = new Point(X0 + WidthOfLabels, Y0);
-                        buttonOk.Text = "Ok";
+                        buttonOk.Text = "Сохранение";
                         buttonOk.Name = "buttonOk";
                         this.Controls.Add(buttonOk);
 
                         buttonCancel.Location = new Point(X0, Y0);
-                        buttonCancel.Text = "Cancel";
+                        buttonCancel.Text = "Отмена";
                         buttonCancel.Name = "buttonCancel";
                         this.Controls.Add(buttonCancel);
 
                         buttonRules.Location = new Point(X0 + 2 * WidthOfLabels, Y0);
                         buttonRules.Text = "Добавить ещё строку для правила";
-                        buttonRules.Width = 2 * WidthOfLabels;
+                        buttonRules.Width =  WidthOfLabels;
                         buttonRules.Name = "buttonRules";
                         this.Controls.Add(buttonRules);
+
+                        Button buttonStart = new Button();//для правил
+                        buttonStart.Text = "Запуск свода правил";
+                        buttonStart.Click += new EventHandler(buttonStart_Click);
+                        buttonStart.Width = WidthOfLabels;
+                        buttonStart.Location = new Point(X0 + 4 * WidthOfLabels, Y0);
+                        this.Controls.Add(buttonStart);
+                         
                         value1 = value;
                         break;
 
@@ -400,16 +409,23 @@ namespace Coursework.Forms
 
         private void FormForRecords_Load(object sender, EventArgs e)
         {
-
+          
 
         }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("");
+        }
+
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            if (process == "edit" || process == "delete")//проверка при вводе на число(работает при удалении или редактировании записи)
+                if (process == "edit" || process == "delete")//проверка при вводе на число(работает при удалении или редактировании записи)
             {
                 try
                 {
                     idOfDeletingOrEditing = int.Parse(texboxs[0].Text);
+                    //process = "";//мега костыль
                     this.Close();
                 }
                 catch
@@ -460,6 +476,8 @@ namespace Coursework.Forms
                                 catch { }
                             }
                             write.Close();
+                            Redistribution redistr = new Redistribution();
+                            
                         }
                         else
                         {
@@ -479,6 +497,12 @@ namespace Coursework.Forms
                                 query[i] = texboxs[i].Text;
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                             }
+
+                            WorkWithDatabase DB = new WorkWithDatabase();//проверка существования вписанных внешних ключей
+                            string s = DB.GettingInfo("provider", "id = " + texboxs[3].Text);
+
+                            if (s == "") { throw new Exception("Не существует такого производителя"); }
+
                             double.Parse(texboxs[2].Text);
                             int.Parse(texboxs[0].Text + texboxs[3].Text);
                             InsertOrUpdate();
@@ -487,6 +511,7 @@ namespace Coursework.Forms
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
+                            
                         }
                         break;
                     }
@@ -529,7 +554,17 @@ namespace Coursework.Forms
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                                 if (i != 1) int.Parse(texboxs[i].Text);
                             }
-                           
+
+                            WorkWithDatabase DB = new WorkWithDatabase();
+                            string s = DB.GettingInfo("product", "id = " + texboxs[3].Text);
+                            if (s == "") { throw new Exception("Не существует такого товара!"); }
+
+                            s = DB.GettingInfo("manager", "id = " + texboxs[4].Text);
+                            if (s == "") { throw new Exception("Не существует такого менеджера!"); }
+
+                            s = DB.GettingInfo("storage", "id = " + texboxs[5].Text);
+                            if (s == "") { throw new Exception("Не существует такого склада!"); }
+
                             InsertOrUpdate();
                         }
                         catch (Exception ex)
@@ -573,13 +608,25 @@ namespace Coursework.Forms
                         try
                         {
                             WorkWithDatabase DB = new WorkWithDatabase();
-                            DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
+
+                            if (entity == "sale")//получение информации по складу
+                            {
+                                string id = DB.GettingInfo("storage", "ID = " + texboxs[5].Text);
+                                id = DB.GettingInfo("balance", "ID = " + id.Substring(0, id.IndexOf(' ')) + " AND ProductID =" + texboxs[3].Text);//получение ID сущности Склад-товар-остаток
+                                if (id == "") throw new Exception("Не существует искомой сущности. Вы проводили перераспределение товаров?");
+                                DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, id.Substring(0, id.IndexOf(' ')));
+                            }
+                            else
+                            {
+                                DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
+                            }
+
                             MessageBox.Show("Успешно выполнено!");
                             this.Close();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Ошибка, возможно товар с данным id уже существует?");
+                            MessageBox.Show("Ошибка!" + ex.Message );
                         }
                         break;
 
@@ -589,14 +636,48 @@ namespace Coursework.Forms
                         try
                         {
                             WorkWithDatabase DB = new WorkWithDatabase();
-                            DB.DeleteFromDB(entity, texboxs[0].Text);//придумать что-нибудь получше?
-                            DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
+                            switch (entity)
+                            {
+                                case "product":
+                                    {
+                                        DB.UpdateDB(entity, "name", texboxs[1].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "price", texboxs[2].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "ProviderID", texboxs[3].Text, texboxs[0].Text);
+                                        break;
+                                    }
+                                case "provider":
+                                    {
+                                        DB.UpdateDB(entity, "name", texboxs[1].Text, texboxs[0].Text);    
+                                        DB.UpdateDB(entity, "Currensy", texboxs[2].Text, texboxs[0].Text); 
+                                        break;
+                                    }
+                                case "sale":
+                                    {
+                                        DB.UpdateDB(entity, "date", texboxs[1].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "count", texboxs[2].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "ProductID", texboxs[3].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "ManagerID", texboxs[4].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "BalanceID", texboxs[5].Text, texboxs[0].Text);
+                                        break;
+                                    }
+                                case "manager":
+                                    {
+                                        DB.UpdateDB(entity, "FIO", texboxs[1].Text, texboxs[0].Text);
+                                        break;
+                                    }
+                                case "storage":
+                                    {
+                                        DB.UpdateDB(entity, "Adress", texboxs[1].Text, texboxs[0].Text);
+                                        break;
+                                    }
+                            }
+                    
                             MessageBox.Show("Успех!");
                             this.Close();
                         }
                         catch
                         {
-                            MessageBox.Show("Ошибка, возможно товар с данным id уже существует?");
+                            MessageBox.Show("Ошибка ввода");
                         }
                         break;
                     }

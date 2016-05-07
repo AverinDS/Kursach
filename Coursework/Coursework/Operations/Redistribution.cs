@@ -10,5 +10,8 @@ namespace Coursework
     {
         public Redistribution()
         { }
+        WorkWithDatabase DB = new WorkWithDatabase();   
+
+       
     }
 }
