@@ -415,7 +415,9 @@ namespace Coursework.Forms
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("");
+            //MessageBox.Show("");
+            Redistribution redistr = new Redistribution();
+            redistr.BeginRedistribution();
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -553,6 +555,13 @@ namespace Coursework.Forms
                                 query[i] = texboxs[i].Text;
                                 if (query[i] == "") { throw new System.ArgumentException("Не заполнены некоторые поля"); }
                                 if (i != 1) int.Parse(texboxs[i].Text);
+                                else
+                                {
+                                    texboxs[i].Text = DateTime.Parse(texboxs[i].Text).ToString();
+                                    texboxs[i].Text = texboxs[i].Text.Remove(texboxs[i].Text.IndexOf(' '), 8);
+                                    
+                                   
+                                }
                             }
 
                             WorkWithDatabase DB = new WorkWithDatabase();
@@ -609,15 +618,57 @@ namespace Coursework.Forms
                         {
                             WorkWithDatabase DB = new WorkWithDatabase();
 
-                            if (entity == "sale")//получение информации по складу
-                            {
-                                string id = DB.GettingInfo("storage", "ID = " + texboxs[5].Text);
-                                id = DB.GettingInfo("balance", "ID = " + id.Substring(0, id.IndexOf(' ')) + " AND ProductID =" + texboxs[3].Text);//получение ID сущности Склад-товар-остаток
-                                if (id == "") throw new Exception("Не существует искомой сущности. Вы проводили перераспределение товаров?");
-                                DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, id.Substring(0, id.IndexOf(' ')));
+                            if (entity == "sale")
+                            {//получение информации по складу
+                                string info = DB.GettingInfo("storage", "ID = " + texboxs[5].Text);
+                                info = DB.GettingInfo("balance", "StorageID = " + info.Substring(0, info.IndexOf(' ')) + " AND ProductID =" + texboxs[3].Text);//получение ID сущности Склад-товар-остаток
+                                if (info == "") throw new Exception("Не существует искомой сущности. Вы проводили перераспределение товаров?");
+
+                                string value = info;//проверка на достаточность товара
+                                value = value.Remove(0, value.IndexOf(' ')+1);
+                                value = value.Substring(0, value.IndexOf(' '));
+                                int value2 = int.Parse(value);
+                                if (int.Parse(texboxs[2].Text) <= 0) throw new Exception("Количество товара не может быть меньше или равна нулю!");
+                                if (value2 - int.Parse(texboxs[2].Text) < 0) throw new Exception("Нехватка товара на складе. Невозможно выполнить продажу такого количества.Необходимо выполнить перераспределение. Операция прервана. ");
+                               
+                                DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, info.Substring(0, info.IndexOf(' ')));
                             }
                             else
                             {
+                                //также при создании товара или склада, нужно создавать новую сущность balance
+                                switch (entity)
+                                {
+                                    case "product":
+                                        {
+                                            string allId = DB.Getting_id("storage");
+                                            while(allId != "")
+                                            {
+                                                string idStorage = "";
+                                              
+                                                idStorage = allId.Substring(0, allId.IndexOf(' '));
+                                                DB.InsertInDB("balance", (int.Parse(DB.GettingMaxId("balance"))+1).ToString(),"0", texboxs[0].Text, idStorage,"","");
+
+                                                allId = allId.Remove(0, allId.IndexOf(' ')+1);
+                                            }
+
+                                            break;
+                                        }
+                                    case "storage":
+                                        {
+                                            string allId = DB.Getting_id("product");
+                                            while (allId != "")
+                                            {
+                                                string idProduct = "";
+
+                                                idProduct = allId.Substring(0, allId.IndexOf(' '));
+                                                DB.InsertInDB("balance", (int.Parse(DB.GettingMaxId("balance")) + 1).ToString(), "0", idProduct, texboxs[0].Text, "", "");
+
+                                                allId = allId.Remove(0, allId.IndexOf(' ') + 1);
+                                            }
+                                            break;
+                                        }
+                                }
+
                                 DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
                             }
 

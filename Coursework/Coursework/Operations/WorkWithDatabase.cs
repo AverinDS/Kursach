@@ -103,6 +103,29 @@ namespace Coursework
             return values;
         }
 
+        public string Getting_id(string table)
+        {
+            command = new SQLiteCommand(String.Format("select ID from {0}", table), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Rows.Count; i++)
+                {
+                    values += TableForResult.Rows[i][0] + " ";
+                }
+            }
+            catch { values = ""; }
+
+            return values;
+        
+    }
+
         public void CreatingOrFindingTable()
         {
             //SQLiteConnection.CreateFile(@"D:\ООП\git\Kursach\Coursework\Coursework\bin\Debug\Database.sqlite"); // просто адрес папки
@@ -125,6 +148,29 @@ namespace Coursework
                 balance.ExecuteNonQuery();
                 connect.Close();
             }
+        }
+
+        public string GettingMaxId(string table)
+        {
+            command = new SQLiteCommand(String.Format("select MAX(ID) from {0}", table), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Rows.Count; i++)
+                {
+                    values += TableForResult.Rows[i][0] + " ";
+                }
+            }
+            catch { values = ""; }
+
+            if (values == " ") values = "0";
+            return values;
         }
 
         
