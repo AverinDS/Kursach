@@ -61,7 +61,7 @@ namespace Coursework.Forms
                 formForRecords.ShowDialog();
                 RedistributionLabel.Text = "Последнее перераспределение товара: " + DateTime.Now.ToString();
             }
-            catch { }
+            catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
     }
 

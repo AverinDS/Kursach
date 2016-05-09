@@ -93,9 +93,12 @@ namespace Coursework
             string values = "";
             try
             {
-                for (int i = 0; i < TableForResult.Columns.Count; i++)
+                for (int i = 0; i < TableForResult.Rows.Count; i++)//изменил на rows
                 {
-                    values += TableForResult.Rows[0][i] + " ";
+                    for (int j = 0; j < TableForResult.Columns.Count; j++)
+                    {
+                        values += TableForResult.Rows[i][j] + " ";
+                    }
                 }
             }
             catch { values = ""; }
@@ -125,6 +128,29 @@ namespace Coursework
             return values;
         
     }
+
+        public string Getting_id(string table, string query)
+        {
+            command = new SQLiteCommand(String.Format("select ID from {0} where {1}", table, query), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Rows.Count; i++)
+                {
+                    values += TableForResult.Rows[i][0] + " ";
+                }
+            }
+            catch { values = ""; }
+
+            return values;
+
+        }//нужен ли?
 
         public void CreatingOrFindingTable()
         {
@@ -173,7 +199,30 @@ namespace Coursework
             return values;
         }
 
-        
+        public string Count (string table)
+        {
+            command = new SQLiteCommand(String.Format("select COUNT(*) from {0}", table), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Rows.Count; i++)
+                {
+                    values += TableForResult.Rows[i][0] + " ";
+                }
+            }
+            catch { values = ""; }
+
+            return values;
+
+        }
+
+
 
         public DataTable SelectForGrid(string table)
         {

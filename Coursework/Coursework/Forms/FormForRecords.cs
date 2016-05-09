@@ -448,14 +448,17 @@ namespace Coursework.Forms
                             texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
                             try
                             {
-                                int.Parse(texboxs[i].Text);
-                                int.Parse(texboxs[i].Text);
+                                if (texboxs[i].Text != "" && texbox2[i].Text != "")
+                                {
+                                    int.Parse(texboxs[i].Text);
+                                    int.Parse(texboxs[i].Text);
+                                }
                             }
                             catch
                             {
                                 checkEmpty = true;
                             }
-                            if (texboxs[i].Text == "" || texbox2[i].Text == "")
+                            if ((texboxs[i].Text == "" && texbox2[i].Text != "") || (texboxs[i].Text != "" && texbox2[i].Text == ""))
                             {
                                 checkEmpty = true;
                                 break;
