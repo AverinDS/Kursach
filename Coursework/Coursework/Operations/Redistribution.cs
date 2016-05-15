@@ -17,14 +17,20 @@ namespace Coursework
         {
              countOfNeeded = 100;
         }
+        DateTime Last;
         int countOfNeeded;
         int[,] rules;
         WorkWithDatabase DB = new WorkWithDatabase();
-        int valueOfOrder = 10;
+        int valueOfOrder = 100;
+        int valueOnStorage;
         
         public void BeginRedistribution()//происходит выяснение срабатывания системы продукции и если да, то передача id товара в метод ниже
         {
-            if(DB.Count("storage") == "0 ") { MessageBox.Show("Отсутствуют склады!"); return; }
+            
+            if (DB.Count("storage") == "0 ") { MessageBox.Show("Отсутствуют склады!"); return; }
+            valueOnStorage = valueOfOrder / int.Parse(DB.Count("storage"));
+            valueOfOrder = valueOnStorage * int.Parse(DB.Count("storage"));
+
             StreamReader reader = new StreamReader(@"E:/rules.txt");
             string line = "";
             int count = 0;
@@ -179,19 +185,43 @@ namespace Coursework
                 Phrase phrase3;
                 if (i != int.Parse(DB.Count("storage")) - 1)
                 {
-                     phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2.Substring(0, storages.IndexOf(' ')) + " getting in value = " + valueOfOrder.ToString());
+                     phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value = " + valueOnStorage.ToString());
                 }
                 else
                 {
-                     phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value " + valueOfOrder.ToString());
+                     phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value " + valueOnStorage.ToString());
                 }
                 Paragraph paragraph3 = new Paragraph(phrase3);
                 paragraph3.Add(Environment.NewLine);
                 doc.Add(paragraph3);
             }
             doc.Close();
+            Last = DateTime.Now;
             System.Diagnostics.Process.Start(String.Format(@"E:/Redistribution{0}.pdf", idProduct));
+
+            storages = DB.GettingInfo("storage", "ID>0");
+            for (int i = 1; i <= int.Parse(DB.Count("storage")); i++)
+            {
+                string idStorage = storages.Substring(0, storages.IndexOf(' '));
+                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
+                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
+                int count = int.Parse(DB.GettingValueInStorage(i.ToString(), idProduct.ToString()));
+                string info = DB.GettingInfo("balance", "StorageID = " + idStorage + " and ProductID = " + idProduct.ToString());
+                string idBalance = info.Substring(0, info.IndexOf(' '));
+                info = info.Remove(0, info.IndexOf(' ') + 1);
+                info = info.Substring(0, info.IndexOf(' '));
+                if (valueOnStorage - int.Parse(info) > 0)
+                {
+                    DB.UpdateDB("balance", "Number", (valueOnStorage - int.Parse(info)).ToString(), idBalance);
+                }
+            }
+
             //добавить работу с БД (тип у нас всё моментально приходит)
+
+
+            StreamWriter write = new StreamWriter(@"E:\lastredistribution.txt");
+            write.WriteLine(DateTime.Now.ToString());
+            write.Close();
         }
        
     }

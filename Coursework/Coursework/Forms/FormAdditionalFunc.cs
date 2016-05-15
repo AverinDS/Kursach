@@ -10,6 +10,7 @@ using System.Windows.Forms;
 //using System.Net.NetworkInformation;
 using System.Threading;
 using Coursework.Forms;
+using System.IO;
 
 namespace Coursework.Forms
 {
@@ -38,7 +39,25 @@ namespace Coursework.Forms
             }
            // StatusOfNetwork.Text = "Состояние сети: проверка...";
             tracking.updateStandart();
-            StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от " + DateTime.Now.ToString();
+            if (!Email.CheckingInternet())
+            {
+                StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от: Неизвестно";
+            }
+            else {
+                StatusOfUpdatingStandarts.Text = "Курс валют: " + tracking.dollar + tracking.euro + "  Данные от: " + tracking.date.ToString();
+            }
+                string last = "";
+            if (File.Exists(@"E:\lastredistribution.txt"))
+            {
+                StreamReader read = new StreamReader(@"E:\lastredistribution.txt");
+                last = read.ReadLine();
+                read.Close();
+            }
+            else
+            { last = "неизвестно"; }
+            RedistributionLabel.Text = "Последнее перераспределение товаров: " + last;
+            //TimerCheckingNetWork.Start();
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -59,10 +78,36 @@ namespace Coursework.Forms
             try
             {
                 formForRecords.ShowDialog();
-                RedistributionLabel.Text = "Последнее перераспределение товара: " + DateTime.Now.ToString();
+                string last = "";
+                if (File.Exists(@"E:\lastredistribution.txt"))
+                {
+                    StreamReader read = new StreamReader(@"E:\lastredistribution.txt");
+                    last = read.ReadLine();
+                    read.Close();
+                }
+                else
+                { last = "неизвестно"; }
+                RedistributionLabel.Text = "Последнее перераспределение товаров: " + last;
             }
             catch(Exception ex) { MessageBox.Show(ex.Message); }
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            WorkWithEmail em = new WorkWithEmail();
+            em.CheckingInternet();
+            if (!em.CheckingInternet())
+            {
+                
+                StatusOfNetwork.Text = "Состояние сети: Ошибка подключения";
+            }
+            else
+            {
+                StatusOfNetwork.Text = "Состояние сети: Подключено";
+            }
+        }
+
+      
     }
 
        

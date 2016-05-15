@@ -199,6 +199,29 @@ namespace Coursework
             return values;
         }
 
+        public string GettingValueInStorage( string StorageID, string ProductID)
+        {
+            command = new SQLiteCommand(String.Format("select number from balance where StorageID = {0} and ProductID = {1}",StorageID, ProductID), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Rows.Count; i++)
+                {
+                    values += TableForResult.Rows[i][0] + " ";
+                }
+            }
+            catch { values = ""; }
+
+            if (values == " ") values = "0";
+            return values;
+        }
+
         public string Count (string table)
         {
             command = new SQLiteCommand(String.Format("select COUNT(*) from {0}", table), connect);

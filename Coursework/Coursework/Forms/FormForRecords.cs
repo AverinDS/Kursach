@@ -292,7 +292,7 @@ namespace Coursework.Forms
                             labels3[i] = new Label();
 
 
-                            labels2[i].Text = " осталось ";
+                            labels2[i].Text = " осталось равно или меньше, чем";
                             labels2[i].Width = WidthOfLabels;
                             labels2[i].Location = new Point(X0 + 2 * WidthOfLabels, Y0);
 
@@ -418,6 +418,8 @@ namespace Coursework.Forms
             //MessageBox.Show("");
             Redistribution redistr = new Redistribution();
             redistr.BeginRedistribution();
+            MessageBox.Show("Перераспределение выполнено!");
+            this.Close();
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
@@ -611,6 +613,7 @@ namespace Coursework.Forms
                    
             }
         }
+
         private void InsertOrUpdate()
         {
             switch (process)
@@ -737,6 +740,7 @@ namespace Coursework.Forms
                     }
             }
         }
+
         public void GetInformationForInserting(string id)
         {
             WorkWithDatabase DB = new WorkWithDatabase();
@@ -822,7 +826,7 @@ namespace Coursework.Forms
                     labels3[i] = new Label();
                     texbox2[i] = new TextBox();
 
-                    labels2[i].Text = " осталось ";
+                    labels2[i].Text = " осталось равно или меньше, чем ";
                     labels2[i].Width = WidthOfLabels;
                     labels2[i].Location = new Point(X0 + 2 * WidthOfLabels, Y0);
 
@@ -878,19 +882,6 @@ namespace Coursework.Forms
             }
         }
         
-       // public void Add()
-        //{
-        //    WorkWithDatabase DB = new WorkWithDatabase();
-        //    try
-        //    {
-        //        DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, texboxs[5].Text);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-
-        //}
 
     }
 }
