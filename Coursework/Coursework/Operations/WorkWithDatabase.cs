@@ -93,15 +93,17 @@ namespace Coursework
             string values = "";
             try
             {
-                for (int i = 0; i < TableForResult.Rows.Count; i++)//изменил на rows
-                {
-                    for (int j = 0; j < TableForResult.Columns.Count; j++)
+                
+                    for (int i = 0; i < TableForResult.Rows.Count; i++)//изменил на rows
                     {
-                        values += TableForResult.Rows[i][j] + " ";
+                        for (int j = 0; j < TableForResult.Columns.Count; j++)
+                        {
+                            values += TableForResult.Rows[i][j] + " ";
+                        }
                     }
-                }
+               
             }
-            catch { values = ""; }
+            catch(Exception ex) { values = ""; }
            
             return values;
         }

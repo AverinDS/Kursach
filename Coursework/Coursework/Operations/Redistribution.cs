@@ -56,13 +56,17 @@ namespace Coursework
 
             for (int i = 0; i < count; i++)// получаем информацию записям, удовлетворяющим системе продукции
             {
-                 NeededAllId += DB.GettingInfo("balance", "ProductId =" + rules[i,0].ToString() +" AND Number <=" + rules[i,1].ToString())+ " ";
+                 NeededAllId += DB.GettingInfo("balance", "ProductId =" + rules[i,0].ToString() +" AND Number <=" + rules[i,1].ToString());
+                if (DB.GettingInfo("balance", "ProductId =" + rules[i, 0].ToString() + " AND Number <=" + rules[i, 1].ToString()) != "")
+                {
+                    NeededAllId += " ";
+                }
             }
 
-            if (NeededAllId == " ")
+            if (NeededAllId == "")
             { MessageBox.Show("Уже всё оптимизированно");return; }
 
-
+            //NeededAllId = NeededAllId.Remove(0, 1);//непонятный пробел
             while (NeededAllId != "")
             {
                 NeededAllId = NeededAllId.Remove(0, NeededAllId.IndexOf(' ')+1);//удаление id
@@ -74,7 +78,7 @@ namespace Coursework
                 if (DB.GettingInfo("sale", "ProductId = "+ idProduct)== "")
                 {
                     IfWithoutSales(idProduct);
-                    return;
+                    //return;
                 }
                 BodyOfRedistribution(idProduct);
             }
@@ -144,10 +148,60 @@ namespace Coursework
                     allSales += int.Parse(storageSale[i].Substring(0, storageSale[i].IndexOf(' ')));
                     storageSale[i] = storageSale[i].Remove(0, storageSale[i].IndexOf(' ') + 1);
                 }
-                persent = Math.Round((double)Allcount * 100 / allSales);
+                persent = (double)Allcount * 100 / allSales;
                 storageSale[i] = idStorage.ToString() + " " + persent.ToString();
 
             }
+            ////////////////////////////////////////////////////////////
+            if (File.Exists(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct)))
+            {
+                File.Delete(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct));
+            }
+            string Name = DB.GettingInfo("product", "ID = " + idOfProduct);
+            Name = Name.Remove(0, Name.IndexOf(' ') + 1);
+            Name = Name.Substring(0, Name.IndexOf(' '));
+
+            var doc = new Document();
+            PdfWriter.GetInstance(doc, new FileStream(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct), FileMode.Create));
+            doc.Open();
+            iTextSharp.text.Phrase phrase = new Phrase(string.Format("List of redistribution for product with ID = {0} ({1}) on storages:", idOfProduct, Name));
+            Paragraph pararaph = new Paragraph(phrase);
+            pararaph.Add(Environment.NewLine);
+            doc.Add(pararaph);
+
+            iTextSharp.text.Phrase phrase2 = new Phrase("All ordered product:" + valueOfOrder.ToString());
+            Paragraph paragraph2 = new Paragraph(phrase2);
+            paragraph2.Add(Environment.NewLine);
+            doc.Add(paragraph2);
+
+            string storages = DB.GettingInfo("storage", "ID>0");
+            for (int j = 0; i < int.Parse(DB.Count("storage")); i++)
+            {
+                string id = storages.Substring(0, storages.IndexOf(' '));
+                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
+                string storages2 = storages.Substring(0, storages.IndexOf(' '));
+                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
+                Phrase phrase3;
+                if (i != int.Parse(DB.Count("storage")) - 1)
+                {
+                    phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value = " + valueOnStorage.ToString());
+                }
+                else
+                {
+                    phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value " + valueOnStorage.ToString());
+                }
+                Paragraph paragraph3 = new Paragraph(phrase3);
+                paragraph3.Add(Environment.NewLine);
+                doc.Add(paragraph3);
+            }
+            doc.Close();
+            Last = DateTime.Now;
+            System.Diagnostics.Process.Start(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct));
+
+
+
+
+
 
 
         }
@@ -205,7 +259,7 @@ namespace Coursework
                 string idStorage = storages.Substring(0, storages.IndexOf(' '));
                 storages = storages.Remove(0, storages.IndexOf(' ') + 1);
                 storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                int count = int.Parse(DB.GettingValueInStorage(i.ToString(), idProduct.ToString()));
+                //int count = int.Parse(DB.GettingValueInStorage(idStorage.ToString(), idProduct.ToString()));
                 string info = DB.GettingInfo("balance", "StorageID = " + idStorage + " and ProductID = " + idProduct.ToString());
                 string idBalance = info.Substring(0, info.IndexOf(' '));
                 info = info.Remove(0, info.IndexOf(' ') + 1);
@@ -216,7 +270,7 @@ namespace Coursework
                 }
             }
 
-            //добавить работу с БД (тип у нас всё моментально приходит)
+          
 
 
             StreamWriter write = new StreamWriter(@"E:\lastredistribution.txt");

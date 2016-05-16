@@ -416,10 +416,40 @@ namespace Coursework.Forms
         private void buttonStart_Click(object sender, EventArgs e)
         {
             //MessageBox.Show("");
-            Redistribution redistr = new Redistribution();
-            redistr.BeginRedistribution();
-            MessageBox.Show("Перераспределение выполнено!");
-            this.Close();
+            bool checkEmpty = false;
+            for (int i = 0; i < value; i++)//цикл проверки введённых данных в текстбоксах
+            {
+                texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
+                try
+                {
+                    if (texboxs[i].Text != "" && texbox2[i].Text != "")
+                    {
+                        int.Parse(texboxs[i].Text);
+                        int.Parse(texboxs[i].Text);
+                    }
+                }
+                catch
+                {
+                    checkEmpty = true;
+                }
+                if ((texboxs[i].Text == "" && texbox2[i].Text != "") || (texboxs[i].Text != "" && texbox2[i].Text == ""))
+                {
+                    checkEmpty = true;
+                    break;
+
+                }
+            }
+            if (!checkEmpty)
+            {
+                Redistribution redistr = new Redistribution();
+                redistr.BeginRedistribution();
+                MessageBox.Show("Перераспределение выполнено!");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Не заполнено по крайней мере одно поле");
+            }
         }
 
         private void buttonOk_Click(object sender, EventArgs e)
