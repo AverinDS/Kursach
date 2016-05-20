@@ -15,18 +15,24 @@ namespace Coursework
     {
         public Redistribution()
         {
-             countOfNeeded = 100;
+            // countOfNeeded = 100;
         }
         DateTime Last;
-        int countOfNeeded;
+        //int countOfNeeded;
         int[,] rules;
         WorkWithDatabase DB = new WorkWithDatabase();
-        int valueOfOrder = 100;
+        int valueOfOrder = 121;
+        int valueOfOrder2 = 121;
         int valueOnStorage;
-        
+
+
         public void BeginRedistribution()//происходит выяснение срабатывания системы продукции и если да, то передача id товара в метод ниже
         {
-            
+            StreamWriter write = new StreamWriter(@"E:\lastredistribution.txt");
+            write.WriteLine(DateTime.Now.ToString());
+            write.Close();
+
+
             if (DB.Count("storage") == "0 ") { MessageBox.Show("Отсутствуют склады!"); return; }
             valueOnStorage = valueOfOrder / int.Parse(DB.Count("storage"));
             valueOfOrder = valueOnStorage * int.Parse(DB.Count("storage"));
@@ -35,11 +41,11 @@ namespace Coursework
             string line = "";
             int count = 0;
 
-            while ((line = reader.ReadLine())!= null)//считаем количество правил
+            while ((line = reader.ReadLine()) != null)//считаем количество правил
             {
                 count++;
             }
-            rules = new int[count,2];
+            rules = new int[count, 2];
             reader.Close();
 
             reader = new StreamReader(@"E:/rules.txt");
@@ -51,108 +57,36 @@ namespace Coursework
                 rules[count, 1] = int.Parse(line);
                 count++;
             }
-            count--;
+            // count--;
+            reader.Close();
             string NeededAllId = "";
 
             for (int i = 0; i < count; i++)// получаем информацию записям, удовлетворяющим системе продукции
             {
-                 NeededAllId += DB.GettingInfo("balance", "ProductId =" + rules[i,0].ToString() +" AND Number <=" + rules[i,1].ToString());
-                if (DB.GettingInfo("balance", "ProductId =" + rules[i, 0].ToString() + " AND Number <=" + rules[i, 1].ToString()) != "")
-                {
-                    NeededAllId += " ";
-                }
+                NeededAllId += DB.Getting_smth("balance", "ProductID", "Number<=" + rules[i, 1] + " and ProductID ==" + rules[i, 0] + " Group by ProductID");
             }
+         
+            
 
             if (NeededAllId == "")
-            { MessageBox.Show("Уже всё оптимизированно");return; }
+            { MessageBox.Show("Уже всё оптимизированно"); return; }
 
-            //NeededAllId = NeededAllId.Remove(0, 1);//непонятный пробел
-            while (NeededAllId != "")
+           while( NeededAllId != "")
             {
-                NeededAllId = NeededAllId.Remove(0, NeededAllId.IndexOf(' ')+1);//удаление id
-                NeededAllId = NeededAllId.Remove(0, NeededAllId.IndexOf(' ') + 1);//удаление количества товаров
-                string idProduct = NeededAllId.Substring(0, NeededAllId.IndexOf(' '));//получаем id продукта искомого
-                NeededAllId = NeededAllId.Remove(0, NeededAllId.IndexOf(' ') + 1);//удаляем id продукта
-                NeededAllId = NeededAllId.Remove(0, NeededAllId.IndexOf(' ') + 1);//удаляем id склада
-                //NeededAllId = NeededAllId.Remove(0, 1);//удаляет пробел
-                if (DB.GettingInfo("sale", "ProductId = "+ idProduct)== "")
-                {
-                    IfWithoutSales(idProduct);
-                    //return;
-                }
+                string idProduct = NeededAllId.Substring(0, NeededAllId.IndexOf(' '));
+                NeededAllId =  NeededAllId.Remove(0, NeededAllId.IndexOf(' ') + 1);
+              
                 BodyOfRedistribution(idProduct);
             }
+          
+                
+      }
 
-        }
+        
 
         private void BodyOfRedistribution(string idOfProduct)
         {
-            int Allcount = 0;
-            string sales = DB.GettingInfo("sale", "ProductId = " + idOfProduct);
-
-            while (sales != "")//считаем общее количество продаж
-            {
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление id;
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление даты продажи
-                Allcount += int.Parse(sales.Substring(0, sales.IndexOf(' ')));//прибавляем к общему количеству продаж 
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление к-ва продаж
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//и трех внешних ключей
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);
-            }
-
-            sales = DB.GettingInfo("sale", "ProductId = " + idOfProduct);//начинаем считать количество продаж для каждого склада
-            string countOf = DB.Count("storage");
-            string[] storageSale = new string[int.Parse(countOf)];//формат такой: первое число - это id склада, остальные числа - продажи товара
-            int i = 0;
-
-            while (sales != "")//считаем количество продаж для каждого склада
-            {
-                int count = 0;
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление id;
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление даты продажи
-                count += int.Parse(sales.Substring(0, sales.IndexOf(' ')));//запоминаем количество продаж для данного склада 
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление к-ва продаж
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);//удаление внешних ключей
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);
-
-                for (int j = 0; j < i; j++)//ищем этот склад в уже существующих записях
-                {
-                    if (storageSale[j].Substring(0, storageSale[j].IndexOf(' ')) == sales.Substring(0, sales.IndexOf(' ')))
-                    {
-                        storageSale[j] += " " + count.ToString();
-                        break;
-                    }
-                    else
-                    {
-                        if (j == i-1)//если не нашли
-                        {
-                            storageSale[i] = sales.Substring(0, sales.IndexOf(' '));//в начало строки вставляем номер склада
-                            storageSale[i] += " " + count.ToString();//и значение продаж
-                            i++;
-                        }
-                    }
-                }
-               
-                sales = sales.Remove(0, sales.IndexOf(' ') + 1);
-            }
-            
-            for (int j = 0; j < int.Parse(countOf); j++)// приводим к формату id - % от общего
-            {
-                string idStorage = storageSale[i].Substring(0, storageSale[i].IndexOf(' '));
-                storageSale[i] = storageSale[i].Remove(0, storageSale[i].IndexOf(' ') + 1);
-                int allSales = 0;
-                double persent = 0;
-                while (storageSale[i]!= "" )
-                {
-                    allSales += int.Parse(storageSale[i].Substring(0, storageSale[i].IndexOf(' ')));
-                    storageSale[i] = storageSale[i].Remove(0, storageSale[i].IndexOf(' ') + 1);
-                }
-                persent = (double)Allcount * 100 / allSales;
-                storageSale[i] = idStorage.ToString() + " " + persent.ToString();
-
-            }
-            ////////////////////////////////////////////////////////////
+            valueOfOrder = valueOfOrder2;
             if (File.Exists(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct)))
             {
                 File.Delete(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct));
@@ -161,122 +95,73 @@ namespace Coursework
             Name = Name.Remove(0, Name.IndexOf(' ') + 1);
             Name = Name.Substring(0, Name.IndexOf(' '));
 
+            string ttf = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "ARIAL.TTF");
+            var baseFont = BaseFont.CreateFont(ttf, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            var font = new Font(baseFont, iTextSharp.text.Font.DEFAULTSIZE, iTextSharp.text.Font.NORMAL);
+
             var doc = new Document();
             PdfWriter.GetInstance(doc, new FileStream(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct), FileMode.Create));
             doc.Open();
-            iTextSharp.text.Phrase phrase = new Phrase(string.Format("List of redistribution for product with ID = {0} ({1}) on storages:", idOfProduct, Name));
+            iTextSharp.text.Phrase phrase = new Phrase(new Chunk(string.Format("List of redistribution for product with ID = {0} ({1}) on storages:", idOfProduct, Name), font));
             Paragraph pararaph = new Paragraph(phrase);
             pararaph.Add(Environment.NewLine);
             doc.Add(pararaph);
 
-            iTextSharp.text.Phrase phrase2 = new Phrase("All ordered product:" + valueOfOrder.ToString());
-            Paragraph paragraph2 = new Paragraph(phrase2);
-            paragraph2.Add(Environment.NewLine);
-            doc.Add(paragraph2);
 
-            string storages = DB.GettingInfo("storage", "ID>0");
-            for (int j = 0; i < int.Parse(DB.Count("storage")); i++)
+            StreamReader read = new StreamReader(@"E:\rules.txt");
+            string line = "";
+            while ((line = read.ReadLine()) != "")
             {
-                string id = storages.Substring(0, storages.IndexOf(' '));
-                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                string storages2 = storages.Substring(0, storages.IndexOf(' '));
-                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                Phrase phrase3;
-                if (i != int.Parse(DB.Count("storage")) - 1)
+                if (idOfProduct == line.Substring(0, line.IndexOf(' ')))
+
                 {
-                    phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value = " + valueOnStorage.ToString());
-                }
-                else
-                {
-                    phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value " + valueOnStorage.ToString());
-                }
-                Paragraph paragraph3 = new Paragraph(phrase3);
-                paragraph3.Add(Environment.NewLine);
-                doc.Add(paragraph3);
-            }
-            doc.Close();
-            Last = DateTime.Now;
-            System.Diagnostics.Process.Start(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct));
-
-
-
-
-
-
-
-        }
-
-        private void IfWithoutSales(string idProduct)//обычно, это происходит, когда продаж нет совсем. Распределяется всё поровну
-        {
-            if (File.Exists(String.Format(@"E:/Redistribution{0}.pdf", idProduct)))
-            {
-                File.Delete(String.Format(@"E:/Redistribution{0}.pdf", idProduct));
-            }
-            string Name = DB.GettingInfo("product", "ID = " + idProduct);
-            Name = Name.Remove(0, Name.IndexOf(' ') + 1);
-            Name = Name.Substring(0, Name.IndexOf(' '));
-
-            var doc = new Document();
-            PdfWriter.GetInstance(doc, new FileStream(String.Format(@"E:/Redistribution{0}.pdf", idProduct), FileMode.Create));
-            doc.Open();
-            iTextSharp.text.Phrase phrase = new Phrase(string.Format("List of redistribution for product with ID = {0} ({1}) on storages:", idProduct, Name));
-            Paragraph pararaph = new Paragraph(phrase);
-            pararaph.Add(Environment.NewLine);
-            doc.Add(pararaph);
-
-            iTextSharp.text.Phrase phrase2 = new Phrase("All ordered product:" + valueOfOrder.ToString());
-            Paragraph paragraph2 = new Paragraph(phrase2);
-            paragraph2.Add(Environment.NewLine);
-            doc.Add(paragraph2);
-
-            string storages = DB.GettingInfo("storage", "ID>0");
-            for(int i = 0; i < int.Parse(DB.Count("storage")); i++)
-            {
-                string id = storages.Substring(0, storages.IndexOf(' '));
-                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                string storages2 = storages.Substring(0, storages.IndexOf(' '));
-                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                Phrase phrase3;
-                if (i != int.Parse(DB.Count("storage")) - 1)
-                {
-                     phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value = " + valueOnStorage.ToString());
-                }
-                else
-                {
-                     phrase3 = new Phrase("For storage with id = " + id + ", with adress " + storages2 + " getting in value " + valueOnStorage.ToString());
-                }
-                Paragraph paragraph3 = new Paragraph(phrase3);
-                paragraph3.Add(Environment.NewLine);
-                doc.Add(paragraph3);
-            }
-            doc.Close();
-            Last = DateTime.Now;
-            System.Diagnostics.Process.Start(String.Format(@"E:/Redistribution{0}.pdf", idProduct));
-
-            storages = DB.GettingInfo("storage", "ID>0");
-            for (int i = 1; i <= int.Parse(DB.Count("storage")); i++)
-            {
-                string idStorage = storages.Substring(0, storages.IndexOf(' '));
-                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                storages = storages.Remove(0, storages.IndexOf(' ') + 1);
-                //int count = int.Parse(DB.GettingValueInStorage(idStorage.ToString(), idProduct.ToString()));
-                string info = DB.GettingInfo("balance", "StorageID = " + idStorage + " and ProductID = " + idProduct.ToString());
-                string idBalance = info.Substring(0, info.IndexOf(' '));
-                info = info.Remove(0, info.IndexOf(' ') + 1);
-                info = info.Substring(0, info.IndexOf(' '));
-                if (valueOnStorage - int.Parse(info) > 0)
-                {
-                    DB.UpdateDB("balance", "Number", (valueOnStorage - int.Parse(info)).ToString(), idBalance);
+                    break;
                 }
             }
-
           
+            string NeededStorage = DB.Getting_smth("balance", "StorageID", "Number <= " + line.Remove(0, line.IndexOf(' ')+1) + " and ProductID =" + idOfProduct);
+            int count = 0;//считаем количество складов
+            while (NeededStorage != "")
+            {
+                count++;
+                NeededStorage = NeededStorage.Remove(0, NeededStorage.IndexOf(' ') + 1);
+            }
+            NeededStorage = DB.Getting_smth("balance", "StorageID", "Number <= " + line.Remove(0, line.IndexOf(' ') + 1) + " and ProductID =" + idOfProduct);
+
+            while (valueOfOrder%count != 0)
+            {
+                valueOfOrder--;
+            }
+            valueOnStorage = valueOfOrder / count;
 
 
-            StreamWriter write = new StreamWriter(@"E:\lastredistribution.txt");
-            write.WriteLine(DateTime.Now.ToString());
-            write.Close();
+            iTextSharp.text.Phrase phrase2 = new Phrase(new Chunk("All ordered product:" + valueOfOrder.ToString(), font));
+            Paragraph paragraph2 = new Paragraph(phrase2);
+            paragraph2.Add(Environment.NewLine);
+            doc.Add(paragraph2);
+
+
+            while (NeededStorage != "")
+            {
+                string id = NeededStorage.Substring(0, NeededStorage.IndexOf(' '));
+                string adress = DB.Getting_smth("storage", "adress", "ID = " + id);
+                Phrase phrase3 = new Phrase(new Chunk("For storage with id = " + id + ", with adress " + adress + " getting in value = " + valueOnStorage.ToString(), font));
+                Paragraph paragraph3 = new Paragraph(phrase3);
+                paragraph3.Add(Environment.NewLine);
+                doc.Add(paragraph3);
+                string oldValue = DB.Getting_smth("balance", "Number", "StorageID = " + id + " and ProductID =  " + idOfProduct);
+                string idBalance = DB.Getting_id("balance", "ProductID = " + idOfProduct + " and StorageID = " + id);
+                DB.UpdateDB("balance", "Number", (valueOnStorage + int.Parse(oldValue)).ToString(), idBalance);
+
+
+                NeededStorage = NeededStorage.Remove(0, NeededStorage.IndexOf(' ') + 1);
+            }
+
+            doc.Close();
+            Last = DateTime.Now;
+
         }
-       
+
+
     }
 }

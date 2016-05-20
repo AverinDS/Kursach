@@ -25,7 +25,7 @@ namespace Coursework.Forms
         string process = "";
         string[] rules;
         bool cancel = false;
-       // bool IsEdit, IsDelete;
+        // bool IsEdit, IsDelete;
 
 
         Label[] labels = new Label[6];
@@ -33,10 +33,14 @@ namespace Coursework.Forms
         Button buttonOk = new Button();
         Button buttonCancel = new Button();
         Button buttonRules = new Button();
-        
+        Button buttonStart = new Button();
+
         Label[] labels2;//это для отражения записи Если товара с id =... осталось ...
         TextBox[] texbox2;//
         Label[] labels3;
+        WorkWithDatabase DB = new WorkWithDatabase();
+
+        ComboBox[] Box;
 
         /* public int setting
          {
@@ -70,13 +74,15 @@ namespace Coursework.Forms
             buttonCancel.Click += new EventHandler(buttonCancel_Click);
             buttonRules.Click += new EventHandler(buttonRules_Click);
 
+
+
             for (int i = 0; i < 6; i++)
             {
                 labels[i] = new Label();
                 labels[i].Width = WidthOfLabels;
                 texboxs[i] = new TextBox();
                 texboxs[i].Width = WidthOfLabels;
-               
+
 
             }
 
@@ -252,7 +258,7 @@ namespace Coursework.Forms
                                 value++;//считаем количество правил, уже существующих 
 
                             }
-
+                            Box = new ComboBox[value];
                             reader.Close();
 
                             reader = new StreamReader(@"E:/rules.txt");
@@ -262,7 +268,7 @@ namespace Coursework.Forms
                             while ((line = reader.ReadLine()) != null)
                             {
                                 rules[value] = line;
-                                value++;//считаем количество правил, уже существующих 
+                                value++;
                             }
                             reader.Close();
 
@@ -281,12 +287,16 @@ namespace Coursework.Forms
                         {
                             labels[i] = new Label();
                             labels[i].Location = new Point(X0, Y0);
-                            labels[i].Text = "Если товара с id = ";
+                            labels[i].Text = "Если товара  ";
                             labels[i].Width = WidthOfLabels;
 
-                            texboxs[i] = new TextBox();
-                            texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
-                            texboxs[i].Width = WidthOfLabels;
+                            //texboxs[i] = new TextBox();
+                            //texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            //texboxs[i].Width = WidthOfLabels;
+                            Box[i] = new ComboBox();
+                            Box[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                            Box[i].Width = WidthOfLabels;
+                            Box[i].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;//запрет ввода своих значений
 
                             labels2[i] = new Label();
                             labels3[i] = new Label();
@@ -300,17 +310,37 @@ namespace Coursework.Forms
                             texbox2[i].Width = WidthOfLabels;
                             texbox2[i].Location = new Point(X0 + 3 * WidthOfLabels, Y0);
 
+                            //Box[i, 1] = new ComboBox();
+                            //Box[i, 1].Location = new Point(X0 + 3 * WidthOfLabels, Y0);
+                            //Box[i, 1].Width = WidthOfLabels;
+
                             labels3[i].Width = 2 * WidthOfLabels;
                             labels3[i].Location = new Point(X0 + 4 * WidthOfLabels, Y0);
                             labels3[i].Text = " то запустить процедуру перераспределения товаров";
 
                             Y0 += 30;
+
                             try
                             {
                                 string[] items = new string[2];
                                 items = rules[i].Split(' ');
-                                texboxs[i].Text = items[0];
+                                Box[i].Items.Add("-");
+                                string NamesProduct = DB.Getting_smth("product", "name", "ID>0");
+                                while (NamesProduct != "")
+                                {
+
+                                    Box[i].Items.Add(NamesProduct.Substring(0, NamesProduct.IndexOf(' ')));
+                                    if (NamesProduct.Substring(0, NamesProduct.IndexOf(' ')) + " " == DB.Getting_smth("product", "name", " ID = " + items[0]))
+                                    {
+                                        Box[i].SelectedItem = NamesProduct.Substring(0, NamesProduct.IndexOf(' '));
+                                    }
+                                    NamesProduct = NamesProduct.Remove(0, NamesProduct.IndexOf(' ') + 1);
+                                }
+
+
+                                //texboxs[i].Text = items[0];
                                 texbox2[i].Text = items[1];
+
                                 int.Parse(items[0]);
                                 int.Parse(items[1]);
 
@@ -325,7 +355,7 @@ namespace Coursework.Forms
                             this.Controls.Add(labels[i]);
                             this.Controls.Add(labels2[i]);
                             this.Controls.Add(labels3[i]);
-                            this.Controls.Add(texboxs[i]);
+                            this.Controls.Add(Box[i]);
                             this.Controls.Add(texbox2[i]);
                         }
 
@@ -336,23 +366,23 @@ namespace Coursework.Forms
                         this.Controls.Add(buttonOk);
 
                         buttonCancel.Location = new Point(X0, Y0);
-                        buttonCancel.Text = "Отмена";
+                        buttonCancel.Text = "Закрыть";
                         buttonCancel.Name = "buttonCancel";
                         this.Controls.Add(buttonCancel);
 
                         buttonRules.Location = new Point(X0 + 2 * WidthOfLabels, Y0);
                         buttonRules.Text = "Добавить ещё строку для правила";
-                        buttonRules.Width =  WidthOfLabels;
+                        buttonRules.Width = WidthOfLabels;
                         buttonRules.Name = "buttonRules";
                         this.Controls.Add(buttonRules);
 
-                        Button buttonStart = new Button();//для правил
+                        buttonStart = new Button();//для правил
                         buttonStart.Text = "Запуск свода правил";
                         buttonStart.Click += new EventHandler(buttonStart_Click);
                         buttonStart.Width = WidthOfLabels;
                         buttonStart.Location = new Point(X0 + 4 * WidthOfLabels, Y0);
                         this.Controls.Add(buttonStart);
-                         
+
                         value1 = value;
                         break;
 
@@ -409,7 +439,7 @@ namespace Coursework.Forms
 
         private void FormForRecords_Load(object sender, EventArgs e)
         {
-          
+
 
         }
 
@@ -419,25 +449,19 @@ namespace Coursework.Forms
             bool checkEmpty = false;
             for (int i = 0; i < value; i++)//цикл проверки введённых данных в текстбоксах
             {
-                texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
+               // texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
                 try
                 {
-                    if (texboxs[i].Text != "" && texbox2[i].Text != "")
+                    if ( texbox2[i].Text != "")
                     {
-                        int.Parse(texboxs[i].Text);
-                        int.Parse(texboxs[i].Text);
+                        int.Parse(texbox2[i].Text);  
                     }
                 }
                 catch
                 {
                     checkEmpty = true;
                 }
-                if ((texboxs[i].Text == "" && texbox2[i].Text != "") || (texboxs[i].Text != "" && texbox2[i].Text == ""))
-                {
-                    checkEmpty = true;
-                    break;
-
-                }
+                
             }
             if (!checkEmpty)
             {
@@ -454,7 +478,7 @@ namespace Coursework.Forms
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-                if (process == "edit" || process == "delete")//проверка при вводе на число(работает при удалении или редактировании записи)
+            if (process == "edit" || process == "delete")//проверка при вводе на число(работает при удалении или редактировании записи)
             {
                 try
                 {
@@ -468,8 +492,8 @@ namespace Coursework.Forms
                     return;
                 }
             }
-               
-             switch (entity)
+
+            switch (entity)
             {
                 case "redistribution":
                     {
@@ -477,25 +501,27 @@ namespace Coursework.Forms
 
                         for (int i = 0; i < value; i++)//цикл проверки введённых данных в текстбоксах
                         {
-                            texboxs[i].Text = texboxs[i].Text.Replace(' ', '_');
+                            texbox2[i].Text.Replace(" ", "");//Дабы не обвалили опять всё снова!!!
                             try
                             {
-                                if (texboxs[i].Text != "" && texbox2[i].Text != "")
+                                if (texbox2[i].Text != "" )
                                 {
-                                    int.Parse(texboxs[i].Text);
-                                    int.Parse(texboxs[i].Text);
+                                    //int.Parse(texboxs[i].Text);
+                                    int.Parse(texbox2[i].Text);
+                                }
+                                else
+                                {
+                                    if (Box[i].SelectedItem.ToString() != "-")
+                                    {
+                                        checkEmpty = true;
+                                    }
                                 }
                             }
                             catch
                             {
                                 checkEmpty = true;
                             }
-                            if ((texboxs[i].Text == "" && texbox2[i].Text != "") || (texboxs[i].Text != "" && texbox2[i].Text == ""))
-                            {
-                                checkEmpty = true;
-                                break;
 
-                            }
                         }
                         if (!checkEmpty)
                         {
@@ -503,18 +529,17 @@ namespace Coursework.Forms
                             StreamWriter write = new StreamWriter(@"E:/rules.txt");
                             for (int i = 0; i < value; i++)
                             {
-                                try
+
+                                if (Box[i].SelectedItem.ToString() != "-")
                                 {
-                                    if (texboxs[i].Text != "" && texbox2[i].Text != "")
-                                    {
-                                        write.WriteLine(texboxs[i].Text + " " + texbox2[i].Text);
-                                    }
+                                    write.WriteLine(DB.Getting_id("product", " Name = '" + Box[i].SelectedItem + "'") + texbox2[i].Text);
                                 }
-                                catch { }
+
                             }
                             write.Close();
-                            Redistribution redistr = new Redistribution();
                             
+                            // Redistribution redistr = new Redistribution();
+
                         }
                         else
                         {
@@ -543,12 +568,12 @@ namespace Coursework.Forms
                             double.Parse(texboxs[2].Text);
                             int.Parse(texboxs[0].Text + texboxs[3].Text);
                             InsertOrUpdate();
-                           
+
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
-                            
+
                         }
                         break;
                     }
@@ -568,7 +593,7 @@ namespace Coursework.Forms
                             int.Parse(texboxs[0].Text);
                             texboxs[2].Text = texboxs[2].Text.ToLower();
                             if (texboxs[2].Text != "rub" && texboxs[2].Text != "eur" && texboxs[2].Text != "usd")
-                                throw new Exception("Неверная валюта. Необходимо ввести rub eur или usd");  
+                                throw new Exception("Неверная валюта. Необходимо ввести rub eur или usd");
                             InsertOrUpdate();
                         }
                         catch (Exception ex)
@@ -594,8 +619,8 @@ namespace Coursework.Forms
                                 {
                                     texboxs[i].Text = DateTime.Parse(texboxs[i].Text).ToString();
                                     texboxs[i].Text = texboxs[i].Text.Remove(texboxs[i].Text.IndexOf(' '), 8);
-                                    
-                                   
+
+
                                 }
                             }
 
@@ -618,7 +643,8 @@ namespace Coursework.Forms
                         break;
                     }
                 case "storage":
-                case "manager": {
+                case "manager":
+                    {
                         try //так же включает в себя проверку на заполненность всех полей
                         {
                             value = 2;
@@ -638,9 +664,9 @@ namespace Coursework.Forms
                         }
                         break;
                     }
-               
-                       
-                   
+
+
+
             }
         }
 
@@ -661,12 +687,12 @@ namespace Coursework.Forms
                                 if (info == "") throw new Exception("Не существует искомой сущности. Вы проводили перераспределение товаров?");
 
                                 string value = info;//проверка на достаточность товара
-                                value = value.Remove(0, value.IndexOf(' ')+1);
+                                value = value.Remove(0, value.IndexOf(' ') + 1);
                                 value = value.Substring(0, value.IndexOf(' '));
                                 int value2 = int.Parse(value);
                                 if (int.Parse(texboxs[2].Text) <= 0) throw new Exception("Количество товара не может быть меньше или равна нулю!");
                                 if (value2 - int.Parse(texboxs[2].Text) < 0) throw new Exception("Нехватка товара на складе. Невозможно выполнить продажу такого количества.Необходимо выполнить перераспределение. Операция прервана. ");
-                               
+                                DB.UpdateDB("balance", "Number", (value2 - int.Parse(texboxs[2].Text)).ToString(), info.Substring(0, info.IndexOf(' ')));
                                 DB.InsertInDB(entity, texboxs[0].Text, texboxs[1].Text, texboxs[2].Text, texboxs[3].Text, texboxs[4].Text, info.Substring(0, info.IndexOf(' ')));
                             }
                             else
@@ -677,14 +703,14 @@ namespace Coursework.Forms
                                     case "product":
                                         {
                                             string allId = DB.Getting_id("storage");
-                                            while(allId != "")
+                                            while (allId != "")
                                             {
                                                 string idStorage = "";
-                                              
-                                                idStorage = allId.Substring(0, allId.IndexOf(' '));
-                                                DB.InsertInDB("balance", (int.Parse(DB.GettingMaxId("balance"))+1).ToString(),"0", texboxs[0].Text, idStorage,"","");
 
-                                                allId = allId.Remove(0, allId.IndexOf(' ')+1);
+                                                idStorage = allId.Substring(0, allId.IndexOf(' '));
+                                                DB.InsertInDB("balance", (int.Parse(DB.GettingMaxId("balance")) + 1).ToString(), "0", texboxs[0].Text, idStorage, "", "");
+
+                                                allId = allId.Remove(0, allId.IndexOf(' ') + 1);
                                             }
 
                                             break;
@@ -713,7 +739,7 @@ namespace Coursework.Forms
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Ошибка!" + ex.Message );
+                            MessageBox.Show("Ошибка!" + ex.Message);
                         }
                         break;
 
@@ -734,8 +760,8 @@ namespace Coursework.Forms
                                     }
                                 case "provider":
                                     {
-                                        DB.UpdateDB(entity, "name", texboxs[1].Text, texboxs[0].Text);    
-                                        DB.UpdateDB(entity, "Currensy", texboxs[2].Text, texboxs[0].Text); 
+                                        DB.UpdateDB(entity, "name", texboxs[1].Text, texboxs[0].Text);
+                                        DB.UpdateDB(entity, "Currensy", texboxs[2].Text, texboxs[0].Text);
                                         break;
                                     }
                                 case "sale":
@@ -758,7 +784,7 @@ namespace Coursework.Forms
                                         break;
                                     }
                             }
-                    
+
                             MessageBox.Show("Успех!");
                             this.Close();
                         }
@@ -775,7 +801,7 @@ namespace Coursework.Forms
         {
             WorkWithDatabase DB = new WorkWithDatabase();
             string value = DB.GettingInfo(entity, "id =" + id);
-            if( value =="")
+            if (value == "")
             {
                 MessageBox.Show("Записи не найдено");
                 cancel = true;
@@ -785,7 +811,7 @@ namespace Coursework.Forms
             while (value != "")
             {
                 texboxs[i].Text = value.Substring(0, value.IndexOf(' '));
-                value = value.Remove(0, value.IndexOf(' ')+1);
+                value = value.Remove(0, value.IndexOf(' ') + 1);
                 i++;
             }
             texboxs[0].Enabled = false;
@@ -801,7 +827,7 @@ namespace Coursework.Forms
 
         private void FormForRecords_FormClosing(object sender, FormClosingEventArgs e)
         {
-           // cancel = true;
+            // cancel = true;
         }
 
         private void buttonRules_Click(object sender, EventArgs e)
@@ -811,7 +837,7 @@ namespace Coursework.Forms
 
             for (int i = 0; i < value; i++)
             {
-                if (texboxs[i].Text == "" || texbox2[i].Text == "")
+                if (texbox2[i].Text == "" || Box[i].SelectedItem.ToString() == "-")
                 {
                     checkEmpty = true;
                     break;
@@ -823,19 +849,23 @@ namespace Coursework.Forms
                 buttonRules.Enabled = false;
                 this.Controls.Clear();
                 value++;
-                texboxs = new TextBox[value];//увеличивается value и пересоздается массив texboxов
+                // texboxs = new TextBox[value];
+                //увеличивается value и пересоздается массив texboxов
                 texbox2 = new TextBox[value];
                 labels = new Label[value];
                 labels2 = new Label[value];
                 labels3 = new Label[value];
+                Box = new ComboBox[value];
+                rules = new string[value];
 
                 for (int i = 0; i < value; i++)
                 {
-                    texboxs[i] = new TextBox();
+                    // texboxs[i] = new TextBox();
                     texbox2[i] = new TextBox();
                     labels[i] = new Label();
                     labels2[i] = new Label();
                     labels3[i] = new Label();
+                    Box[i] = new ComboBox();
 
                 }
 
@@ -846,11 +876,11 @@ namespace Coursework.Forms
                 {
 
                     labels[i].Location = new Point(X0, Y0);
-                    labels[i].Text = "Если товара с id = ";
+                    labels[i].Text = "Если товара";
                     labels[i].Width = WidthOfLabels;
 
-                    texboxs[i].Location = new Point(X0 + WidthOfLabels, Y0);
-                    texboxs[i].Width = WidthOfLabels;
+                    Box[i].Location = new Point(X0 + WidthOfLabels, Y0);
+                    Box[i].Width = WidthOfLabels;
 
                     labels2[i] = new Label();
                     labels3[i] = new Label();
@@ -872,47 +902,74 @@ namespace Coursework.Forms
                     this.Controls.Add(labels[i]);
                     this.Controls.Add(labels2[i]);
                     this.Controls.Add(labels3[i]);
-                    this.Controls.Add(texboxs[i]);
+                    this.Controls.Add(Box[i]);
                     this.Controls.Add(texbox2[i]);
 
                 }
-                for (int i = 0; i < value1; i++)//восстановление данных в textboxы
+                Box[value - 1].Items.Add("-");
+                bool checkGettingInfo = false;
+                StreamReader read = new StreamReader(@"E:\rules.txt");
+                string line = "";
+                int index = 0;
+                while( (line = read.ReadLine())!= null )
+                {
+                    rules[index] = line;
+                    index++;
+                }
+                read.Close();
+               
+                for (int i = 0; i < value-1; i++)//восстановление данных 
                 {
                     string[] items = new string[2];
+                    
                     items = rules[i].Split(' ');
-                    texboxs[i].Text = items[0];
+                    Box[i].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;//запрет ввода своих значений
+                    string NamesProduct = DB.Getting_smth("product", "name", "ID>0");
+                    Box[i].Items.Add("-");
+
+
+                    while (NamesProduct != "")
+                    {
+
+                        Box[i].Items.Add(NamesProduct.Substring(0, NamesProduct.IndexOf(' ')));
+                        if (NamesProduct.Substring(0, NamesProduct.IndexOf(' ')) + " " == DB.Getting_smth("product", "name", " ID = " + items[0]))
+                        {
+                            Box[i].SelectedItem = NamesProduct.Substring(0, NamesProduct.IndexOf(' '));
+                        }
+                        NamesProduct = NamesProduct.Remove(0, NamesProduct.IndexOf(' ') + 1);
+                    }
+                    
                     texbox2[i].Text = items[1];
                 }
 
-                StreamReader read = new StreamReader(@"E:/rules.txt");
-                string line = "";
-                int j = 0;
-
-                while ((line = read.ReadLine()) != null)//обновляем данные из файла
+              
+                string NamesProduct2 = DB.Getting_smth("product", "name", "ID>0");
+                while (NamesProduct2 != "")
                 {
-                    string[] items = new string[2];
-                    items = line.Split(' ');
-                    texboxs[j].Text = items[0];
-                    texbox2[j].Text = items[1];
-                    j++;
+                    Box[value-1].Items.Add(NamesProduct2.Substring(0, NamesProduct2.IndexOf(' ')));
+                    NamesProduct2 = NamesProduct2.Remove(0, NamesProduct2.IndexOf(' ') + 1);
                 }
-
-                read.Close();
+                Box[value-1].SelectedItem = "-";
+                Box[value-1].DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;//запрет ввода своих значений
+               
 
                 buttonOk.Location = new Point(X0, Y0);
                 buttonCancel.Location = new Point(X0 + WidthOfLabels, Y0);
                 buttonRules.Location = new Point(X0 + 2 * WidthOfLabels, Y0);
+                buttonStart.Location = new Point(X0 + 4 * WidthOfLabels, Y0);
                 this.Controls.Add(buttonOk);
                 this.Controls.Add(buttonCancel);
                 this.Controls.Add(buttonRules);
+                this.Controls.Add(buttonStart);
+               
             }
             else
             {
                 MessageBox.Show("Не заполнено по крайней мере одно поле");
             }
         }
-        
+
 
     }
 }
-    
+

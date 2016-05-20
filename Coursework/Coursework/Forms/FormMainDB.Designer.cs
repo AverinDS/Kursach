@@ -37,6 +37,7 @@
             this.radioStorage = new System.Windows.Forms.RadioButton();
             this.radioSale = new System.Windows.Forms.RadioButton();
             this.dataGridViewDB = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDB)).BeginInit();
             this.SuspendLayout();
             // 
@@ -137,13 +138,22 @@
             this.dataGridViewDB.ReadOnly = true;
             this.dataGridViewDB.Size = new System.Drawing.Size(365, 315);
             this.dataGridViewDB.TabIndex = 4;
-           // this.dataGridViewDB.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDB_CellContentClick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(525, 173);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(191, 52);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Получить файлы по почте";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(738, 338);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridViewDB);
             this.Controls.Add(this.radioSale);
             this.Controls.Add(this.radioStorage);
@@ -175,6 +185,7 @@
         private System.Windows.Forms.RadioButton radioStorage;
         private System.Windows.Forms.RadioButton radioSale;
         private System.Windows.Forms.DataGridView dataGridViewDB;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -152,8 +152,33 @@ namespace Coursework
 
             return values;
 
-        }//нужен ли?
+        }
 
+        public string Getting_smth(string table,string smth, string query)
+        {
+            command = new SQLiteCommand(String.Format("select {0} from {1} where {2}", smth, table, query), connect);
+            connect.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            DataTable TableForResult = new DataTable();//для получения данных из БД
+            TableForResult.Load(reader);
+            connect.Close();
+            string values = "";
+            try
+            {
+                for (int i = 0; i < TableForResult.Rows.Count; i++)//изменил на rows
+                {
+                    for (int j = 0; j < TableForResult.Columns.Count; j++)
+                    {
+                        values += TableForResult.Rows[i][j] + " ";
+                    }
+                }
+            }
+            catch { values = ""; }
+
+            return values;
+
+        }//нужен ли?
         public void CreatingOrFindingTable()
         {
             //SQLiteConnection.CreateFile(@"D:\ООП\git\Kursach\Coursework\Coursework\bin\Debug\Database.sqlite"); // просто адрес папки

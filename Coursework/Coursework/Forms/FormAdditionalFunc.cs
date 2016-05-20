@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Threading;
 using Coursework.Forms;
 using System.IO;
+using System.Data.SQLite;
+
 
 namespace Coursework.Forms
 {
@@ -107,7 +109,36 @@ namespace Coursework.Forms
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Report report = new Report();
+            report.ShowDialog();
+            // создание документа
+
+//           
+
+        }
+
+       
+        private void button5_Click_2(object sender, EventArgs e)
+        {
+            Form12 f = new Form12();
+            f.ShowDialog();
+        }
+
       
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OutPutPrice outputP = new OutPutPrice();
+            outputP.output();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            WorkWithEmail em = new WorkWithEmail();
+            em.Getting();
+        }
     }
 
        
