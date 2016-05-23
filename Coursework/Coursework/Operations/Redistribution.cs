@@ -8,6 +8,11 @@ using System.Windows.Forms;
 using iTextSharp.text;
 using iTextSharp;
 using iTextSharp.text.pdf;
+using unoidl.com.sun.star.lang;
+using unoidl.com.sun.star.uno;
+using unoidl.com.sun.star.bridge;
+using unoidl.com.sun.star.frame;
+
 
 namespace Coursework
 {
@@ -32,6 +37,7 @@ namespace Coursework
             write.WriteLine(DateTime.Now.ToString());
             write.Close();
 
+         
 
             if (DB.Count("storage") == "0 ") { MessageBox.Show("Отсутствуют склады!"); return; }
             valueOnStorage = valueOfOrder / int.Parse(DB.Count("storage"));
@@ -100,12 +106,54 @@ namespace Coursework
             var font = new Font(baseFont, iTextSharp.text.Font.DEFAULTSIZE, iTextSharp.text.Font.NORMAL);
 
             var doc = new Document();
+           
             PdfWriter.GetInstance(doc, new FileStream(String.Format(@"E:/Redistribution{0}.pdf", idOfProduct), FileMode.Create));
+
+
+            unoidl.com.sun.star.uno.XComponentContext localContext = uno.util.Bootstrap.bootstrap();
+            unoidl.com.sun.star.lang.XMultiServiceFactory multiServiceFactory = (unoidl.com.sun.star.lang.XMultiServiceFactory)localContext.getServiceManager();
+            XComponentLoader componentLoader = (XComponentLoader)multiServiceFactory.createInstance("com.sun.star.frame.Desktop");
+            XComponent xComponent = componentLoader.loadComponentFromURL("private:factory/swriter", "_blank", 0, new unoidl.com.sun.star.beans.PropertyValue[0]);
+            ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().setString("                                               Сеть розничных магазинов \"Подопытная сеть\" "+ Environment.NewLine);
+
             doc.Open();
+            iTextSharp.text.Phrase head = new Phrase(new Chunk(string.Format("                                               Сеть розничных магазинов \"Подопытная сеть\" "), font));
+            Paragraph headparagraph = new Paragraph(head);
+            headparagraph.Add(Environment.NewLine);
+            doc.Add(headparagraph);
+
+            unoidl.com.sun.star.text.XTextRange x = ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().getEnd();  // в конец
+            ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().insertString(x, "                                                            Приказ начальнику складов "+Environment.NewLine, true);
+
+            head = new Phrase(new Chunk(string.Format("                                                            Приказ начальнику складов "), font));
+            headparagraph = new Paragraph(head);
+            headparagraph.Add(Environment.NewLine);
+            doc.Add(headparagraph);
+
+            x = ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().getEnd();  // в конец
+            ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().insertString(x, "                                                               От  " + DateTime.Now.ToString() + Environment.NewLine, true);
+
+            //head = new Phrase(new Chunk(string.Format("                                               О перераспределении товаров между складами   "), font));
+            //headparagraph = new Paragraph(head);
+            //headparagraph.Add(Environment.NewLine);
+            //doc.Add(headparagraph);
+
+            x = ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().getEnd();  // в конец
+            ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().insertString(x, "                                               О перераспределении товаров между складами"    + DateTime.Now.ToString() + Environment.NewLine, true);
+
+            head = new Phrase(new Chunk(string.Format("                                               О перераспределении товаров между складами   "), font));
+            headparagraph = new Paragraph(head);
+            headparagraph.Add(Environment.NewLine);
+            doc.Add(headparagraph);
+
             iTextSharp.text.Phrase phrase = new Phrase(new Chunk(string.Format("List of redistribution for product with ID = {0} ({1}) on storages:", idOfProduct, Name), font));
             Paragraph pararaph = new Paragraph(phrase);
             pararaph.Add(Environment.NewLine);
             doc.Add(pararaph);
+
+            x = ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().getEnd();  // в конец
+            ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().insertString(x, string.Format("List of redistribution for product with ID = {0} ({1}) on storages:", idOfProduct, Name) + Environment.NewLine, true);
+
 
 
             StreamReader read = new StreamReader(@"E:\rules.txt");
@@ -140,6 +188,10 @@ namespace Coursework
             paragraph2.Add(Environment.NewLine);
             doc.Add(paragraph2);
 
+            x = ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().getEnd();  // в конец
+            ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().insertString(x, "All ordered product:" + valueOfOrder.ToString() + Environment.NewLine, true);
+
+
 
             while (NeededStorage != "")
             {
@@ -149,6 +201,11 @@ namespace Coursework
                 Paragraph paragraph3 = new Paragraph(phrase3);
                 paragraph3.Add(Environment.NewLine);
                 doc.Add(paragraph3);
+
+                x = ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().getEnd();  // в конец
+                ((unoidl.com.sun.star.text.XTextDocument)xComponent).getText().insertString(x, "For storage with id = " + id + ", with adress " + adress + " getting in value = " + valueOnStorage.ToString() + Environment.NewLine, true);
+
+
                 string oldValue = DB.Getting_smth("balance", "Number", "StorageID = " + id + " and ProductID =  " + idOfProduct);
                 string idBalance = DB.Getting_id("balance", "ProductID = " + idOfProduct + " and StorageID = " + id);
                 DB.UpdateDB("balance", "Number", (valueOnStorage + int.Parse(oldValue)).ToString(), idBalance);
@@ -158,10 +215,18 @@ namespace Coursework
             }
 
             doc.Close();
+            string FileName = string.Format(@"\E:\redistribution{0}.odt", idOfProduct);
+            
+            ((XStorable)xComponent).storeToURL( "file://"+FileName.Replace(@"\", "/"),
+   new unoidl.com.sun.star.beans.PropertyValue[0]);
+            xComponent.dispose();
+
             Last = DateTime.Now;
 
         }
 
+
+      
 
     }
 }

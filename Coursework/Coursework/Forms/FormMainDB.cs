@@ -179,5 +179,19 @@ namespace Coursework
             if (radioStorage.Checked == true)
                 dataGridViewDB.DataSource = WorkerDatabase.SelectForGrid("storage");
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            WorkWithEmail email = new WorkWithEmail();
+            if (!email.CheckingInternet())
+            {
+                MessageBox.Show("Нет доступа к интернету, проверьте соеединение и повторите попытку");
+            }
+            else
+            {
+                email.GetAttachImap();
+        }
+        }
     }
 }

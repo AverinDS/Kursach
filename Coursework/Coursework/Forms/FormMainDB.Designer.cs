@@ -145,8 +145,9 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(191, 52);
             this.button1.TabIndex = 5;
-            this.button1.Text = "Получить файлы по почте";
+            this.button1.Text = "Обновить БД, получив файлы от складов по почте";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using Coursework.Operations;
 //using System.Net.NetworkInformation;
 using System.Threading;
 using Coursework.Forms;
@@ -76,6 +77,7 @@ namespace Coursework.Forms
 
         private void button5_Click(object sender, EventArgs e)
         {
+            
             FormForRecords formForRecords = new FormForRecords("redistribution");
             try
             {
@@ -134,11 +136,7 @@ namespace Coursework.Forms
             outputP.output();
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            WorkWithEmail em = new WorkWithEmail();
-            em.Getting();
-        }
+       
     }
 
        

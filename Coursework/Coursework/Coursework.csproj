@@ -32,9 +32,43 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="cli_basetypes, Version=1.0.20.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Licence OpenOfWriter\cli_basetypes.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cli_cppuhelper, Version=1.0.23.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Licence OpenOfWriter\cli_cppuhelper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cli_oootypes, Version=1.0.9.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Licence OpenOfWriter\cli_oootypes.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cli_uno, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Licence OpenOfWriter\cli_uno.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cli_ure, Version=1.0.23.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Licence OpenOfWriter\cli_ure.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="cli_uretypes, Version=1.0.9.0, Culture=neutral, PublicKeyToken=ce2cb7e279207b9e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Licence OpenOfWriter\cli_uretypes.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="itextsharp, Version=5.5.9.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mail, Version=3.0.16061.1530, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Mail.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft_Office_Interop_Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <SpecificVersion>False</SpecificVersion>
@@ -70,16 +104,16 @@
     <Compile Include="Forms\FormForRecords.Designer.cs">
       <DependentUpon>FormForRecords.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Маша\Form12.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Маша\Form12.Designer.cs" />
     <Compile Include="Forms\Report.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Report.Designer.cs">
       <DependentUpon>Report.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Маша\Form12.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Маша\Form12.Designer.cs" />
     <Compile Include="Operations\OutputPrice.cs" />
     <Compile Include="Forms\FormMainDB.cs">
       <SubType>Form</SubType>
@@ -114,6 +148,7 @@
     <EmbeddedResource Include="Forms\Report.resx">
       <DependentUpon>Report.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Маша\Form12.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

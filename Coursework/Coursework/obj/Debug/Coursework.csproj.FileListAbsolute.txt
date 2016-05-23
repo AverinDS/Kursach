@@ -9,15 +9,16 @@ C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\De
 C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.Forms.FormForRecords.resources
 C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.Forms.FormAdditionalFunc.resources
 C:\Users\Дмитрий\Desktop\Курсач гит\Coursework\Coursework\obj\Debug\Coursework.csprojResolveAssemblyReference.cache
-C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\bin\Debug\Coursework.exe.config
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.exe
-C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.pdb
+C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\bin\Debug\Coursework.exe
+C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\bin\Debug\Coursework.pdb
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Forms.FormAdditionalFunc.resources
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Forms.FormForRecords.resources
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Form1.resources
+C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Forms.Report.resources
+C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Forms.Маша.Form12.resources
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Properties.Resources.resources
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.csproj.GenerateResource.Cache
-C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\bin\Debug\Coursework.exe
-C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\bin\Debug\Coursework.pdb
-C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.Forms.Report.resources
+C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\bin\Debug\Coursework.exe.config
 C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.csprojResolveAssemblyReference.cache
+C:\Users\Дмитрий\Desktop\Курсач гит — копия\Coursework\Coursework\obj\Debug\Coursework.pdb

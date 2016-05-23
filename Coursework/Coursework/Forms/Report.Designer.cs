@@ -53,7 +53,7 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(141, 36);
+            this.radioButton2.Location = new System.Drawing.Point(158, 36);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(83, 17);
             this.radioButton2.TabIndex = 0;
@@ -64,7 +64,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(249, 36);
+            this.radioButton3.Location = new System.Drawing.Point(315, 36);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(74, 17);
             this.radioButton3.TabIndex = 0;
@@ -75,7 +75,7 @@
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(361, 36);
+            this.radioButton4.Location = new System.Drawing.Point(466, 36);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(78, 17);
             this.radioButton4.TabIndex = 0;
@@ -85,7 +85,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(417, 324);
+            this.button1.Location = new System.Drawing.Point(405, 324);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(139, 23);
             this.button1.TabIndex = 1;
@@ -95,7 +95,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(25, 324);
+            this.button2.Location = new System.Drawing.Point(12, 324);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(158, 23);
             this.button2.TabIndex = 2;
@@ -113,9 +113,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(208, 325);
+            this.button3.Location = new System.Drawing.Point(209, 324);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(166, 22);
+            this.button3.Size = new System.Drawing.Size(166, 23);
             this.button3.TabIndex = 4;
             this.button3.Text = "Отправить отчёты по почте";
             this.button3.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(617, 364);
+            this.ClientSize = new System.Drawing.Size(564, 364);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.PB1);
             this.Controls.Add(this.button2);
