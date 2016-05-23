@@ -114,10 +114,7 @@ namespace Coursework.Forms
         private void button3_Click(object sender, EventArgs e)
         {
             Report report = new Report();
-            report.ShowDialog();
-            // создание документа
-
-//           
+            report.ShowDialog(); 
 
         }
 
@@ -130,12 +127,7 @@ namespace Coursework.Forms
 
       
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            OutPutPrice outputP = new OutPutPrice();
-            outputP.output();
-        }
-
+       
        
     }
 

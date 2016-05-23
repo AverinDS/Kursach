@@ -188,13 +188,13 @@ namespace Coursework
                         ((Excel.Axis)excelapp.ActiveChart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary)).HasMajorGridlines = true;
                         ((Excel.Axis)excelapp.ActiveChart.Axes(Excel.XlAxisType.xlCategory, Excel.XlAxisGroup.xlPrimary)).HasMinorGridlines = false;
 
-                        excelapp.ActiveChart.HasLegend = true;
+                       /* excelapp.ActiveChart.HasLegend = true;
                         excelapp.ActiveChart.Legend.Position = Excel.XlLegendPosition.xlLegendPositionLeft;
-                        ((Excel.LegendEntry)excelapp.ActiveChart.Legend.LegendEntries(1)).Font.Size = 12; ((Excel.LegendEntry)excelapp.ActiveChart.Legend.LegendEntries(2)).Font.Size = 13;
+                        ((Excel.LegendEntry)excelapp.ActiveChart.Legend.LegendEntries(1)).Font.Size = 12; ((Excel.LegendEntry)excelapp.ActiveChart.Legend.LegendEntries(2)).Font.Size = 13;*/
 
-                        Excel.SeriesCollection seriesCollection = (Excel.SeriesCollection)excelapp.ActiveChart.SeriesCollection(Type.Missing);
+                       /* Excel.SeriesCollection seriesCollection = (Excel.SeriesCollection)excelapp.ActiveChart.SeriesCollection(Type.Missing);
                         Excel.Series series = seriesCollection.Item(1);
-                        series.Name = "Первый ряд";
+                        series.Name = "Первый ряд";*/
 
                         excelapp.ActiveChart.Location(Excel.XlChartLocation.xlLocationAsObject, "Лист1"); excelsheets = excelappworkbook.Worksheets;
                         excelworksheet = (Excel.Worksheet)excelsheets.get_Item(1);

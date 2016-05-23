@@ -41,6 +41,12 @@ namespace Coursework
             else return true;
         }
 
+        public string setMailto
+        {
+            set { mailto = value; }
+            get { return mailto; }
+        }
+
         string smtpServer = "smtp.gmail.com";
         string from = "courseworksdavaysya@gmail.com";
         string password = "gfhjkm123gfhjkm";
@@ -252,7 +258,8 @@ namespace Coursework
                                 MessageBox.Show(string.Format("В файле {0} обнаружена ошибка в строке {1}. Строка будет проигнорированна.\n Дополнительно:", string.Format("DateProductManagerValue{0}.txt", i), k) + ex.Message);
                             }
                         }
-                        File.Delete(string.Format("DateProductManagerStorageValue{0}.txt", i));
+                        read.Close();
+                        File.Delete(string.Format("DateProductManagerStorageValue{0}.txt", i));//закрыть чтение
                     }
                 }
             }

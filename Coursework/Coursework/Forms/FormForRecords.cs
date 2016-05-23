@@ -30,10 +30,12 @@ namespace Coursework.Forms
 
         Label[] labels = new Label[6];
         TextBox[] texboxs = new TextBox[6];
+        TextBox email = new TextBox();
         Button buttonOk = new Button();
         Button buttonCancel = new Button();
         Button buttonRules = new Button();
         Button buttonStart = new Button();
+
 
         Label[] labels2;//это для отражения записи Если товара с id =... осталось ...
         TextBox[] texbox2;//
@@ -73,6 +75,7 @@ namespace Coursework.Forms
             buttonOk.Click += new EventHandler(buttonOk_Click);
             buttonCancel.Click += new EventHandler(buttonCancel_Click);
             buttonRules.Click += new EventHandler(buttonRules_Click);
+           
 
 
 
@@ -88,6 +91,23 @@ namespace Coursework.Forms
 
             switch (s)
             {
+
+                case "email":
+                    {
+                       
+                        email.Width = Width;
+                        email.Location = new Point(10, 10);
+                        this.Controls.Add(email);
+                        email.Text = "Введите e-mail получателя";
+
+                        buttonOk.Location = new Point(10 , 40);
+                        buttonOk.Text = "Ok";
+                        buttonOk.Name = "buttonOk";
+                        this.Controls.Add(buttonOk);
+
+
+                        break;
+                    }
                 case "product":
                     {
                         value = 4;
@@ -437,6 +457,11 @@ namespace Coursework.Forms
             }
         }
 
+        public string Whom
+        {
+            get { return email.Text; }
+        }
+
         private void FormForRecords_Load(object sender, EventArgs e)
         {
 
@@ -495,6 +520,13 @@ namespace Coursework.Forms
 
             switch (entity)
             {
+                case "email":
+                    {
+
+                        this.Close();
+
+                        break;
+                    }
                 case "redistribution":
                     {
                         bool checkEmpty = false;

@@ -71,13 +71,16 @@ namespace Coursework.Forms
         private void button3_Click(object sender, EventArgs e)
         {
             WorkWithEmail email = new WorkWithEmail();
+            
             if (email.CheckingInternet())
             {
+                FormForRecords f = new FormForRecords("email");
+                f.ShowDialog();
+                email.setMailto = f.Whom;
                 OpenFileDialog fileDialog = new OpenFileDialog();
                 if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    //foreach(string i in fileDialog.FileNames)
-                    //{
+                    
                     string line = fileDialog.FileName;
                     email.SendMail("Отчёты с центральной системы автоматизации сети розничных магазинов", "Отчет, отправленный " + DateTime.Now.ToString(), fileDialog.FileName);
 
@@ -88,6 +91,12 @@ namespace Coursework.Forms
                 MessageBox.Show("Нет подключения к интернету.");
             }
               
+        }
+
+        private void OutputPrice_Click(object sender, EventArgs e)
+        {
+            OutPutPrice outputP = new OutPutPrice();
+            outputP.output();
         }
     }
 }

@@ -36,6 +36,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.PB1 = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.OutputPrice = new System.Windows.Forms.Button();
+            this.semanticNet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PB1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,7 +87,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(405, 324);
+            this.button1.Location = new System.Drawing.Point(12, 358);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(139, 23);
             this.button1.TabIndex = 1;
@@ -121,11 +123,32 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // OutputPrice
+            // 
+            this.OutputPrice.Location = new System.Drawing.Point(207, 358);
+            this.OutputPrice.Name = "OutputPrice";
+            this.OutputPrice.Size = new System.Drawing.Size(168, 23);
+            this.OutputPrice.TabIndex = 5;
+            this.OutputPrice.Text = "Вывод прайсов";
+            this.OutputPrice.UseVisualStyleBackColor = true;
+            this.OutputPrice.Click += new System.EventHandler(this.OutputPrice_Click);
+            // 
+            // semanticNet
+            // 
+            this.semanticNet.Location = new System.Drawing.Point(417, 324);
+            this.semanticNet.Name = "semanticNet";
+            this.semanticNet.Size = new System.Drawing.Size(127, 23);
+            this.semanticNet.TabIndex = 6;
+            this.semanticNet.Text = "Семантика";
+            this.semanticNet.UseVisualStyleBackColor = true;
+            // 
             // Report
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(564, 364);
+            this.ClientSize = new System.Drawing.Size(564, 393);
+            this.Controls.Add(this.semanticNet);
+            this.Controls.Add(this.OutputPrice);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.PB1);
             this.Controls.Add(this.button2);
@@ -153,5 +176,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox PB1;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button OutputPrice;
+        private System.Windows.Forms.Button semanticNet;
     }
 }
