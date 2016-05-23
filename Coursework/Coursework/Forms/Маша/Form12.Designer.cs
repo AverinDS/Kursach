@@ -44,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -173,16 +174,16 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Number";
+            this.label1.Text = "Номер ";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(780, 174);
+            this.label2.Location = new System.Drawing.Point(794, 174);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(200, 13);
+            this.label2.Size = new System.Drawing.Size(122, 13);
             this.label2.TabIndex = 13;
-            this.label2.Text = "Date format: day/month/year";
+            this.label2.Text = "Дата: день/месяц/год";
             // 
             // button6
             // 
@@ -196,16 +197,26 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(816, 333);
+            this.textBox3.Location = new System.Drawing.Point(816, 347);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(100, 20);
             this.textBox3.TabIndex = 15;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(837, 331);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Ограничение";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(922, 511);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label2);
@@ -224,7 +235,7 @@
             this.Controls.Add(this.radioButton1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form12_Load);
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -249,6 +260,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label3;
     }
 }
 

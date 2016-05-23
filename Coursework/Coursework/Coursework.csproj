@@ -148,7 +148,9 @@
     <EmbeddedResource Include="Forms\Report.resx">
       <DependentUpon>Report.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Маша\Form12.resx" />
+    <EmbeddedResource Include="Forms\Маша\Form12.resx">
+      <DependentUpon>Form12.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

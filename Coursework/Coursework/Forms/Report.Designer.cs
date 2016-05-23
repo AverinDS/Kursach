@@ -141,6 +141,7 @@
             this.semanticNet.TabIndex = 6;
             this.semanticNet.Text = "Семантика";
             this.semanticNet.UseVisualStyleBackColor = true;
+            this.semanticNet.Click += new System.EventHandler(this.semanticNet_Click);
             // 
             // Report
             // 

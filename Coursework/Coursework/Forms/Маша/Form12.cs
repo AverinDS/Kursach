@@ -27,7 +27,7 @@ namespace Coursework
 
         }
 
-        private void Form12_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
@@ -39,7 +39,18 @@ namespace Coursework
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (textBox3.Text == "")
+            {
+                MessageBox.Show("Введите порядок семантической сети");
+                return;
+            }
             int n = Convert.ToInt32(textBox3.Text);
+            if (n > 5 || n < 3)
+            {
+                MessageBox.Show("Невозможно отобразить данные. Введите ограничение от 3 до 5");
+                return;
+            }
+            
             pictureBox1.Image = bmp;
             bmp = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
             Graphics gr = Graphics.FromImage(bmp);
@@ -52,6 +63,57 @@ namespace Coursework
             WorkWithDatabase DB = new WorkWithDatabase();
             if (radioButton1.Checked == true)
             {
+                if (n == 5)
+                {
+                    gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                    gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 490, 65, 13));
+
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(632, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(455, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(226, 399, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(435, 246, 65, 13));
+
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(733, 75, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 199, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(500, 399, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(700, 246, 65, 13));
+
+                    gr.DrawLine(Pens.Blue, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Blue, 40, 410, 40, 482);
+                    gr.DrawLine(Pens.Blue, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+
+                    gr.DrawLine(Pens.Blue, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Blue, 100, 320, 240, 260);
+                    gr.DrawLine(Pens.LightGreen, 520, 20, 632, 20);
+                    gr.DrawLine(Pens.LightGreen, 260, 252, 430, 252);
+                    gr.DrawLine(Pens.LightGreen, 70, 490, 225, 410 );
+                    gr.DrawLine(Pens.LightGreen, 317, 109, 455, 109);
+                    gr.DrawLine(Pens.Black, 38, 330, 38, 399);
+                    gr.DrawLine(Pens.Red, 670, 25, 733, 75);
+                    gr.DrawLine(Pens.Red, 460, 115, 460, 199);
+                   // gr.DrawLine(Pens.LightGreen, 108, 405, 226, 405);
+                    gr.DrawLine(Pens.Red, 282, 404, 499, 404);
+                    gr.DrawLine(Pens.Red, 505, 252, 695, 252);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Blue, 600, 430, 750, 430);
+                    gr.DrawString("Work", Font, Brushes.Blue, new RectangleF(750, 430, 50, 40));
+                    gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
+                    gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+
+                }
                 if (n == 4)
                 {
                     gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
@@ -71,7 +133,6 @@ namespace Coursework
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(733, 75, 65, 13));
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 199, 65, 13));
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(500, 399, 65, 13));
-
 
                     gr.DrawLine(Pens.Blue, 326, 20, 474, 20);
                     gr.DrawLine(Pens.Blue, 92, 110, 266, 110);
@@ -95,10 +156,6 @@ namespace Coursework
                     gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));
                     gr.DrawLine(Pens.Red, 600, 490, 750, 490);
                     gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
-
-
-
-
                 }
                 if (n == 3)
                 {
@@ -114,19 +171,7 @@ namespace Coursework
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(733, 75, 65, 13));
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 199, 65, 13));
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(226, 399, 65, 13));
-                    //label1.Text = "Provider".ToUpper();
-                    // label2.Text = "Provider".ToUpper();
-                    // label3.Text = "Provider".ToUpper();
-                    //label4.Text = "Filial".ToUpper();
-                    //label5.Text = "Filial".ToUpper();
-                    // label6.Text = "Filial".ToUpper();
-                    // label7.Text = "Manager".ToUpper();
-                    // label8.Text = "Manager".ToUpper();
-                    // label9.Text = "Manager".ToUpper();
-                    // label10.Text = "Product".ToUpper();
-                    // label11.Text = "Product".ToUpper();
-                    // label12.Text = "Product".ToUpper();
-
+                   
                     gr.DrawLine(Pens.Blue, 326, 20, 474, 20);
                     gr.DrawLine(Pens.Blue, 92, 110, 266, 110);
                     gr.DrawLine(Pens.Blue, 40, 260, 40, 318);
@@ -146,8 +191,7 @@ namespace Coursework
                     gr.DrawLine(Pens.Red, 600, 490, 750, 490);
                     gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
                 }
-
-                if (n == 2)
+                /*if (n == 2)
                 {
                     gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
                     gr.DrawString("PROVIDER", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
@@ -164,18 +208,6 @@ namespace Coursework
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(733, 75, 65, 13));
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 199, 65, 13));
                     gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(283, 318, 65, 13));
-                    //label1.Text = "Provider".ToUpper();
-                    // label2.Text = "Provider".ToUpper();
-                    // label3.Text = "Provider".ToUpper();
-                    //label4.Text = "Filial".ToUpper();
-                    //label5.Text = "Filial".ToUpper();
-                    // label6.Text = "Filial".ToUpper();
-                    // label7.Text = "Manager".ToUpper();
-                    // label8.Text = "Manager".ToUpper();
-                    // label9.Text = "Manager".ToUpper();
-                    // label10.Text = "Product".ToUpper();
-                    // label11.Text = "Product".ToUpper();
-                    // label12.Text = "Product".ToUpper();
 
                     gr.DrawLine(Pens.Blue, 326, 20, 474, 20);
                     gr.DrawLine(Pens.Blue, 92, 110, 266, 110);
@@ -196,82 +228,263 @@ namespace Coursework
                     gr.DrawLine(Pens.Red, 600, 490, 750, 490);
                     gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
 
-                }
+                }*/
             }
 
             if (radioButton2.Checked == true)
             {
-                gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
-                gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
-                gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(632, 16, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 103, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+                if (n == 3)
+                {
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(632, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
 
-                gr.DrawLine(Pens.LightGreen, 326, 20, 474, 20);
-                gr.DrawLine(Pens.LightGreen, 92, 110, 266, 110);
-                gr.DrawLine(Pens.LightGreen, 40, 260, 40, 318);
-                gr.DrawLine(Pens.Red, 530, 20, 632, 20);
-                gr.DrawLine(Pens.Red, 327, 109, 455, 109);
-                gr.DrawLine(Pens.Red, 38, 330, 38, 399);
+                    gr.DrawLine(Pens.LightGreen, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.LightGreen, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.LightGreen, 40, 260, 40, 318);
+                    gr.DrawLine(Pens.Red, 530, 20, 632, 20);
+                    gr.DrawLine(Pens.Red, 327, 109, 455, 109);
+                    gr.DrawLine(Pens.Red, 38, 330, 38, 399);
 
-                gr.DrawLine(Pens.Black, 600, 400, 750, 400);
-                gr.DrawString("Better sells", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
-               // gr.DrawLine(Pens.Blue, 600, 430, 750, 430);
-               // gr.DrawString("Work", Font, Brushes.Blue, new RectangleF(750, 430, 50, 40));
-                gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
-                gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));
-                gr.DrawLine(Pens.Red, 600, 490, 750, 490);
-                gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("Better sells", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    // gr.DrawLine(Pens.Blue, 600, 430, 750, 430);
+                    // gr.DrawString("Work", Font, Brushes.Blue, new RectangleF(750, 430, 50, 40));
+                    gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
+                    gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
+                if (n == 4)
+                {
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(632, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(226, 399, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(500, 249, 65, 13));
+
+                    gr.DrawLine(Pens.LightGreen, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.LightGreen, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+
+                    gr.DrawLine(Pens.LightGreen, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Red, 520, 20, 632, 20);
+                    gr.DrawLine(Pens.Red, 317, 109, 455, 109);
+                    gr.DrawLine(Pens.LightGreen, 38, 330, 38, 399);
+                    gr.DrawLine(Pens.Red, 108, 405, 226, 405);
+                    gr.DrawLine(Pens.Red, 282, 252, 499, 252);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("Better sells", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
+                    gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
+                if (n == 5)
+                {
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                    gr.DrawString("FILIAL", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 490, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(225, 318, 65, 13));
+
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(632, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(455, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(226, 399, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(435, 246, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(435, 318, 65, 13));
+
+                    gr.DrawLine(Pens.LightGreen, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.LightGreen, 40, 410, 40, 482);
+                    gr.DrawLine(Pens.LightGreen, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+                    gr.DrawLine(Pens.LightGreen, 85, 322 , 230, 322);
+
+                    gr.DrawLine(Pens.LightGreen, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Red, 530, 20, 632, 20);
+                    gr.DrawLine(Pens.Red, 285, 252, 430, 252);
+                    gr.DrawLine(Pens.Red, 70, 490, 225, 410);
+                    gr.DrawLine(Pens.Red, 317, 109, 455, 109);
+                    gr.DrawLine(Pens.Black, 38, 330, 38, 399);
+                    gr.DrawLine(Pens.Red, 292, 323, 432, 323);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("Better sells", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
+                    gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
             }
 
             if (radioButton3.Checked == true)
             {
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                if (n == 3)
+                {
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
 
-                gr.DrawLine(Pens.Red, 326, 20, 474, 20);
-                gr.DrawLine(Pens.Red, 92, 110, 266, 110);
-                gr.DrawLine(Pens.Red, 40, 260, 40, 318);
+                    gr.DrawLine(Pens.Red, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Red, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Red, 40, 260, 40, 318);
 
-                gr.DrawLine(Pens.Black, 600, 400, 750, 400);
-                gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
-               /* gr.DrawLine(Pens.Blue, 600, 430, 750, 430);
-                gr.DrawString("Work", Font, Brushes.Blue, new RectangleF(750, 430, 50, 40));
-                gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
-                gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));*/
-                gr.DrawLine(Pens.Red, 600, 490, 750, 490);
-                gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
+                if (n == 4)
+                {
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawLine(Pens.Red, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Red, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+
+                    gr.DrawLine(Pens.Red, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Red, 38, 330, 38, 399);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
+                if (n == 5)
+                {
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 490, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(225, 318, 65, 13));
+
+                    gr.DrawLine(Pens.Red, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Red, 40, 410, 40, 482);
+                    gr.DrawLine(Pens.Red, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+                    gr.DrawLine(Pens.Red, 85, 322, 230, 322);
+
+                    gr.DrawLine(Pens.Red, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Black, 38, 330, 38, 399);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sells", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
             }
 
             if (radioButton4.Checked == true)
             {
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
-                gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
-                gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                if (n == 3)
+                {
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
 
-                gr.DrawLine(Pens.Red, 326, 20, 474, 20);
-                gr.DrawLine(Pens.Red, 92, 110, 266, 110);
-                gr.DrawLine(Pens.Red, 40, 260, 40, 318);
+                    gr.DrawLine(Pens.Red, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Red, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Red, 40, 260, 40, 318);
 
-                gr.DrawLine(Pens.Black, 600, 400, 750, 400);
-                gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
-                /* gr.DrawLine(Pens.Blue, 600, 430, 750, 430);
-                 gr.DrawString("Work", Font, Brushes.Blue, new RectangleF(750, 430, 50, 40));
-                 gr.DrawLine(Pens.LightGreen, 600, 460, 750, 460);
-                 gr.DrawString("Employee", Font, Brushes.LightGreen, new RectangleF(750, 460, 55, 40));*/
-                gr.DrawLine(Pens.Red, 600, 490, 750, 490);
-                gr.DrawString("Sold by", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sold by", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
+                if(n == 4)
+                {
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawLine(Pens.Red, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Red, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+
+                    gr.DrawLine(Pens.Red, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Red, 38, 330, 38, 399);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sold by", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
+                if (n == 5)
+                {
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(266, 16, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 103, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(30, 246, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 318, 65, 13));
+                    gr.DrawString("PRODUCT", Font, Brushes.Black, new RectangleF(34, 399, 65, 13));
+
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(474, 16, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(266, 103, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(225, 246, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(34, 490, 65, 13));
+                    gr.DrawString("MANAGER", Font, Brushes.Black, new RectangleF(225, 318, 65, 13));
+
+                    gr.DrawLine(Pens.Red, 326, 20, 474, 20);
+                    gr.DrawLine(Pens.Red, 40, 410, 40, 482);
+                    gr.DrawLine(Pens.Red, 92, 110, 266, 110);
+                    gr.DrawLine(Pens.Black, 40, 260, 40, 318);
+                    gr.DrawLine(Pens.Red, 85, 322, 230, 322);
+
+                    gr.DrawLine(Pens.Red, 85, 252, 220, 252);
+                    gr.DrawLine(Pens.Black, 38, 330, 38, 399);
+
+                    gr.DrawLine(Pens.Black, 600, 400, 750, 400);
+                    gr.DrawString("More Popular", Font, Brushes.Black, new RectangleF(750, 400, 50, 40));
+                    gr.DrawLine(Pens.Red, 600, 490, 750, 490);
+                    gr.DrawString("Sold by", Font, Brushes.Red, new RectangleF(750, 490, 50, 40));
+                }
             }
 
         }
@@ -566,6 +779,15 @@ namespace Coursework
 
         private void button4_Click(object sender, EventArgs e)
         {
+            try
+            {
+                Convert.ToDateTime(textBox2.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка в дате");
+                return;
+            }
             WorkWithDatabase DB = new WorkWithDatabase();
             DB.CreatingOrFindingTable();
             string temp = textBox1.Text.ToString();
@@ -588,8 +810,8 @@ namespace Coursework
                     cells.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlDouble;// верхняя внешняя
                     cells.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlDouble; // правая внешняя
                     cells.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlDouble;// левая внешняя
-                    // cells.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;// нижняя внешняя
-                     //  WorkSheet.Cells.Font.Italic = true;
+                                                                                                          // cells.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;// нижняя внешняя
+                                                                                                          //  WorkSheet.Cells.Font.Italic = true;
                     string date = textBox2.Text.ToString();
                     WorkSheet.Cells[2, 2] = "Данные о запрошенном поставщике на указанный период:    " + date;
                     WorkSheet.Cells[3, 2] = "Имя поставщика";
@@ -599,27 +821,31 @@ namespace Coursework
                     int indexSecond = 5;
                     int index3 = 8;
                     int index4 = 11;
-             
-                    WorkSheet.Cells[4, 2] = DB.Getting_smth("provider", "Name", "id = " + temp); 
+
+                    WorkSheet.Cells[4, 2] = DB.Getting_smth("provider", "Name", "id = " + temp);
                     string id_product = DB.Getting_id("product", "ProviderId = " + temp);
                     while (id_product != "")
                     {
                         string id_Product2 = id_product.Substring(0, id_product.IndexOf(' '));
-                        string name = DB.Getting_smth("product","Name", "id = " + id_product.Substring(0, id_product.IndexOf(' ')));
+                        string name = DB.Getting_smth("product", "Name", "id = " + id_product.Substring(0, id_product.IndexOf(' ')));
                         WorkSheet.Cells[4, indexSecond] = name;
 
                         string id_man = DB.Getting_smth("sale", "ManagerID", "ProductId = " + id_Product2);
                         while (id_man != "")
                         {
                             string date1 = DB.Getting_smth("sale", "Date", "ProductId = " + id_Product2);
-                            if (date1 == date)
-                            {
-                                string id_m2 = id_man.Substring(0, id_man.IndexOf(' '));
-                                string fio = DB.Getting_smth("manager", "FIO", "id =" + id_m2);
-                                WorkSheet.Cells[4, index4] = fio;
-                                id_man = id_man.Remove(0, id_man.IndexOf(' ') + 1);
-                                index4++;
-                            }
+                            while (date1 != "")
+                            { 
+                                if (date1 == date.Substring(0, date1.IndexOf(' ')))
+                                {
+                                    string id_m2 = id_man.Substring(0, id_man.IndexOf(' '));
+                                    string fio = DB.Getting_smth("manager", "FIO", "id =" + id_m2);
+                                    WorkSheet.Cells[4, index4] = fio;
+                                    id_man = id_man.Remove(0, id_man.IndexOf(' ') + 1);
+                                    index4++;
+                                }
+                                date1 = date1.Remove(0, date1.IndexOf(' '));
+                           }
                         }
                         string id_fil = DB.Getting_smth("balance", "StorageID", "ProductId = " + id_Product2);
                         while (id_fil != "")
@@ -631,7 +857,7 @@ namespace Coursework
                                 WorkSheet.Cells[4, index3] = id_f2;
                                 id_fil = id_fil.Remove(0, id_fil.IndexOf(' ') + 1);
                                 index3++;
-                            }                        
+                            }
                         }
                         id_product = id_product.Remove(0, id_product.IndexOf(' ') + 1);
                         indexSecond++;
@@ -651,42 +877,48 @@ namespace Coursework
                     cells.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle = Excel.XlLineStyle.xlDouble;// верхняя внешняя
                     cells.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle = Excel.XlLineStyle.xlDouble; // правая внешняя
                     cells.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle = Excel.XlLineStyle.xlDouble;// левая внешняя
-                  // cells.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;// нижняя внешняя
-                   //  WorkSheet.Cells.Font.Italic = true;
+                                                                                                          // cells.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;// нижняя внешняя
+                                                                                                          //  WorkSheet.Cells.Font.Italic = true;
                     string date = textBox2.Text.ToString();
                     WorkSheet.Cells[2, 2] = "Данные о запрошенном филиале на указанный период:    " + date;
                     WorkSheet.Cells[3, 2] = "ID филиала";
                     WorkSheet.Cells[3, 5] = "Кол-во товаров";
-                  //  WorkSheet.Cells[3, 8] = "ID менеджеров";
+                    //  WorkSheet.Cells[3, 8] = "ID менеджеров";
                     WorkSheet.Cells[3, 11] = "ФИО менеджеров";
 
                     WorkSheet.Cells[4, 2] = temp;
- 
+
                     int indexx = 5;
                     int ind = 8;
                     int ind1 = 11;
- 
-                        string balance = DB.Getting_id("balance", "StorageID = " + temp);
-                        while (balance != "")
+
+                    string balance = DB.Getting_id("balance", "StorageID = " + temp);
+                    while (balance != "")
                     {
                         string date1 = DB.Getting_smth("sale", "Date", "BalanceID =" + balance.Substring(0, balance.IndexOf(' '))).ToString();
 
                         WorkSheet.Cells[5, 2] = date1;
                         //WorkSheet.Cells[4, 2] = date1;
-                        if (date == date1)
+                        while (date1 != "")
                         {
-                            string CountSale = DB.Getting_smth("sale", "Count", "BalanceID =" + balance.Substring(0, balance.IndexOf(' ')));
-                            string Manag = DB.Getting_smth("sale", "ManagerID", "BalanceID =" + balance.Substring(0, balance.IndexOf(' ')));
-                            string fio = DB.Getting_smth("manager", "FIO", "id =" + Manag);
-                            WorkSheet.Cells[4, indexx] = CountSale;
-                            WorkSheet.Cells[4, ind] = Manag;
-                            WorkSheet.Cells[4, ind1] = fio;
-                            indexx++;
-                            ind++;
-                          
+                            if (date == date1.Substring(0, date1.IndexOf(' ')))
+                            {
+                                string CountSale = DB.Getting_smth("sale", "Count", "BalanceID =" + balance.Substring(0, balance.IndexOf(' ')));
+                                string Manag = DB.Getting_smth("sale", "ManagerID", "BalanceID =" + balance.Substring(0, balance.IndexOf(' ')));
+                                string fio = DB.Getting_smth("manager", "FIO", "id =" + Manag);
+                                WorkSheet.Cells[4, indexx] = CountSale;
+                                WorkSheet.Cells[4, ind] = Manag;
+                                WorkSheet.Cells[4, ind1] = fio;
+                                indexx++;
+                                ind++;
+
+                            }
+                            date1 = date1.Remove(0, date1.IndexOf(' ') + 1);
                         }
-                        else
-                        balance = balance.Remove(0, balance.IndexOf(' ') + 1);
+
+                            balance = balance.Remove(0, balance.IndexOf(' ') + 1);
+                        
+                    }
                     }
                 }
                 if (radioButton3.Checked == true)
@@ -709,19 +941,23 @@ namespace Coursework
                     WorkSheet.Cells[3, 2] = "Менеджер";
                     WorkSheet.Cells[3, 5] = "Реализуемые товары";
 
-                        int index5 = 5;
-                        WorkSheet.Cells[4, 2] = DB.Getting_smth("manager", "FIO", "id = " + temp);
-                        string id_product = DB.Getting_smth("sale","ProductID" ,"ManagerId = " + temp);
-                
-                   while (id_product != "")
-                      {
+                    int index5 = 5;
+                    WorkSheet.Cells[4, 2] = DB.Getting_smth("manager", "FIO", "id = " + temp);
+                    string id_product = DB.Getting_smth("sale", "ProductID", "ManagerId = " + temp);
+
+                    while (id_product != "")
+                    {
 
                         string date1 = DB.Getting_smth("sale", "Date", "ProductID =" + id_product.Substring(0, id_product.IndexOf(' ')));
-                        if (date == date1)
+                        while (date1 != "")
                         {
-                            string CountSale = DB.Getting_smth("sale", "Count", "ProductID =" + id_product.Substring(0, id_product.IndexOf(' ')));
-                            WorkSheet.Cells[4, index5] = CountSale;
-                            index5++;
+                            if (date == date1.Substring(0, date1.IndexOf(' ')))
+                            {
+                                string CountSale = DB.Getting_smth("sale", "Count", "ProductID =" + id_product.Substring(0, id_product.IndexOf(' ')));
+                                WorkSheet.Cells[4, index5] = CountSale;
+                                index5++;
+                            }
+                            date1 = date1.Remove(0, date1.IndexOf(' ') + 1);
                         }
                         id_product = id_product.Remove(0, id_product.IndexOf(' ') + 1);
                     }
@@ -751,22 +987,26 @@ namespace Coursework
 
                     string id_man = DB.Getting_smth("sale", "ManagerID", "ProductId = " + temp);
 
-                    while (id_man != "")
+                while (id_man != "")
+                {
+                    string date1 = DB.Getting_smth("sale", "Date", "ManagerID =" + id_man.Substring(0, id_man.IndexOf(' ')));
+                    while (date1 != "")
                     {
-                        string date1 = DB.Getting_smth("sale", "Date", "ManagerID =" + id_man.Substring(0, id_man.IndexOf(' ')));
                         if (date == date1)
                         {
                             string name = DB.Getting_smth("manager", "FIO", "id =" + id_man.Substring(0, id_man.IndexOf(' ')));
                             WorkSheet.Cells[4, index5] = name;
                             index5++;
                         }
-                        id_man = id_man.Remove(0, id_man.IndexOf(' ') + 1);
-                       
+                        //
+                        date1 = date1.Remove(0, date1.IndexOf(' ') + 1);
                     }
-
+                    id_man = id_man.Remove(0, id_man.IndexOf(' ') + 1);
                 }
+
+                
             }
-            }
+        }
 
         private void button5_Click(object sender, EventArgs e) // диаграммы и прайс-лист
         {
@@ -1037,14 +1277,14 @@ namespace Coursework
         //    // 
         //    this.ClientSize = new System.Drawing.Size(284, 261);
         //    this.Name = "Form1";
-        //    this.Load += new System.EventHandler(this.Form1_Load);
+        //    this.Load += new System.EventHandler(this.Form1_Load_1);
         //    this.ResumeLayout(false);
 
         //}
 
-        //private void Form12_Load(object sender, EventArgs e)
-        //{
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
 
-        //}
+        }
     }
 }

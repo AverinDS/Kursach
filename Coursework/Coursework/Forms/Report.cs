@@ -98,5 +98,11 @@ namespace Coursework.Forms
             OutPutPrice outputP = new OutPutPrice();
             outputP.output();
         }
+
+        private void semanticNet_Click(object sender, EventArgs e)
+        {
+            Form12 f = new Form12();
+            f.ShowDialog();
+        }
     }
 }
