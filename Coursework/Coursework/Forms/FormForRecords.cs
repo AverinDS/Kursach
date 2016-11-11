@@ -25,6 +25,7 @@ namespace Coursework.Forms
         string process = "";
         string[] rules;
         bool cancel = false;
+        string pathToRules = "";
         // bool IsEdit, IsDelete;
 
 
@@ -261,16 +262,39 @@ namespace Coursework.Forms
                     }
                 case "redistribution":
                     {
-                        if (!File.Exists(@"E:/rules.txt"))
+                        if(MessageBox.Show("Есть файл перераспределений?", "Вопрос", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
-                            value = 1;
+                            OpenFileDialog fd = new OpenFileDialog();
+                            if(fd.ShowDialog() != DialogResult.OK)
+                            {
+                                this.Close();
+                            }
+                            else
+                            {
+                                pathToRules = fd.FileName;
+                                value = 1;
+                            }
                         }
                         else
                         {
                             value = 0;
+                            MessageBox.Show("укажите место хранения файла");
+                            FolderBrowserDialog folder = new FolderBrowserDialog();
+                            if  (folder.ShowDialog() == DialogResult.OK)
+                            {
+                                StreamWriter sw = new StreamWriter(folder.SelectedPath + @"\\rules.txt");
+                                sw.Close();
+                                pathToRules = folder.SelectedPath + "\\rules.txt";
+                            }
+                            else
+                            { this.Close();return; }
+
+                        }
+                        
+                            value = 0;
 
                             string line = "";
-                            StreamReader reader = new StreamReader(@"E:/rules.txt");
+                            StreamReader reader = new StreamReader(pathToRules);
 
 
                             while ((line = reader.ReadLine()) != null)
@@ -281,7 +305,7 @@ namespace Coursework.Forms
                             Box = new ComboBox[value];
                             reader.Close();
 
-                            reader = new StreamReader(@"E:/rules.txt");
+                            reader = new StreamReader(pathToRules);
                             rules = new string[value];
                             value = 0;
 
@@ -294,13 +318,14 @@ namespace Coursework.Forms
 
 
 
-                        }
+                        
 
                         labels2 = new Label[value];//это для отражения записи Если товара с id =... осталось ...
                         texbox2 = new TextBox[value];
                         labels3 = new Label[value];
                         labels = new Label[value];
                         texboxs = new TextBox[value];
+                        Box = new ComboBox[value];
 
 
                         for (int i = 0; i < value; i++)
@@ -558,7 +583,7 @@ namespace Coursework.Forms
                         if (!checkEmpty)
                         {
                             buttonRules.Enabled = true;
-                            StreamWriter write = new StreamWriter(@"E:/rules.txt");
+                            StreamWriter write = new StreamWriter(pathToRules);
                             for (int i = 0; i < value; i++)
                             {
 
@@ -940,7 +965,7 @@ namespace Coursework.Forms
                 }
                 Box[value - 1].Items.Add("-");
                 bool checkGettingInfo = false;
-                StreamReader read = new StreamReader(@"E:\rules.txt");
+                StreamReader read = new StreamReader(pathToRules);
                 string line = "";
                 int index = 0;
                 while( (line = read.ReadLine())!= null )
